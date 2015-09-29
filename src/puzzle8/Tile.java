@@ -1,6 +1,6 @@
 package puzzle8;
 
-public class BlankSpace {
+public class Tile {
 	int vertical = -1;
 	int horizontal = -1;
 	

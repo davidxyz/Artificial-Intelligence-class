@@ -14,31 +14,23 @@ public class puzzle8driver {
 	
 	public static void main(String[] args) {
 		List<Enviroment> gameList = new ArrayList<Enviroment>();
+		Agent Watson = new Agent();
 		readGameFile(gameList);
-		System.out.println("========");
-		gameList.get(5).printEnviromentState();
-		gameList.get(5).printBlankSpaceLocation();
-		System.out.println("========");
-		System.out.println("moving right");
-		gameList.get(5).moveSpaceRight();
-		gameList.get(5).printEnviromentState();
-		gameList.get(5).printBlankSpaceLocation();
-		System.out.println("========");
-		System.out.println("moving up");
-		gameList.get(5).moveSpaceUp();
-		gameList.get(5).printEnviromentState();
-		gameList.get(5).printBlankSpaceLocation();
-		System.out.println("========");
-		System.out.println("moving left");
-		gameList.get(5).moveSpaceLeft();
-		gameList.get(5).printEnviromentState();
-		gameList.get(5).printBlankSpaceLocation();
-		System.out.println("========");
-		System.out.println("moving down");
-		gameList.get(5).moveSpaceDown();
-		gameList.get(5).printEnviromentState();
-		gameList.get(5).printBlankSpaceLocation();
-		System.out.println("========");
+		System.out.println("========\nCurrent State");
+		gameList.get(0).printCurrentEnviromentState();
+		System.out.println("========\nGoal State");
+		gameList.get(0).printGoalEnviromentState();
+		System.out.println("The cost of getting 4 to its goalstate is " + Watson.calculateCost(gameList.get(0), 4));
+		System.out.println("The total cost of solving the game is: "+ Watson.calculateCost(gameList.get(0)));
+		System.out.println("\nmoving blank space down!\n");
+		gameList.get(0).moveSpaceDown();
+		System.out.println("========\nCurrent State");
+		gameList.get(0).printCurrentEnviromentState();
+		System.out.println("========\nGoal State");
+		gameList.get(0).printGoalEnviromentState();
+		System.out.println("The cost of getting 4 to its goalstate is " + Watson.calculateCost(gameList.get(0), 4));
+		System.out.println("The total cost of solving the game is: "+ Watson.calculateCost(gameList.get(0)));
+		
 	}
 	
 	public static boolean readGameFile(List<Enviroment> gameList) {
