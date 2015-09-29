@@ -13,6 +13,7 @@ public class Queens8Driver {
 		List<Enviroment> gameList = new ArrayList<Enviroment>();
 		readGameFile(gameList);
 		gameList.get(0).printEnviromentState();
+		testHillClimbingSteepestAscent(gameList);
 	}
 	public static boolean readGameFile(List<Enviroment> gameList) {
 		BufferedReader reader = null;
@@ -35,16 +36,7 @@ public class Queens8Driver {
 					System.out.println("Failed to set initial state");
 				}
 			}
-			//hillClimbing steepest Ascent
-			int cost = 0;
-			float solved=0;
-			for(int i=0;i<gameList.size();i++){
-				cost = hillClimbingSteepestAscent(gameList.get(i));
-				if(cost == 0){
-					solved++;
-				}
-			}
-			System.out.printf("solved problems: %.2f\n",(solved/gameList.size())*100);
+		
 		} catch (IOException e) {
 			return false;
 		}
@@ -55,6 +47,18 @@ public class Queens8Driver {
 			e.printStackTrace();
 		}
 		return true;
+	}
+	public static void testHillClimbingSteepestAscent(List<Enviroment> gameList){
+		//hillClimbing steepest Ascent
+		int cost = 0;
+		float solved=0;
+		for(int i=0;i<gameList.size();i++){
+			cost = hillClimbingSteepestAscent(gameList.get(i));
+			if(cost == 0){
+				solved++;
+			}
+		}
+		System.out.printf("solved problems: %.2f\n",(solved/gameList.size())*100);
 	}
 	/**
 	 * Non limiting steepest ascent which aborts if it found the perfect solution or a local minimum
