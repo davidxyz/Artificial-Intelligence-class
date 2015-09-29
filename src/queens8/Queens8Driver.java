@@ -9,6 +9,7 @@ import java.util.List;
 
 
 public class Queens8Driver {
+	final static boolean DEBUG = true;
 	public static void main(String[] args) {
 		List<Enviroment> gameList = new ArrayList<Enviroment>();
 		readGameFile(gameList);
@@ -85,6 +86,13 @@ public class Queens8Driver {
 				}
 			}
 			successorStates = successorEnv.getSuccessorStates();
+		
+		}
+		if(DEBUG&&minHCost == 0){
+			System.out.println("perfect solution was found for env with initial state:");
+			successorEnv.printInitialState();
+			System.out.println("perfect solution was:");
+			successorEnv.printEnviromentState();
 		}
 		return minHCost;
 	}

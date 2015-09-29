@@ -58,6 +58,17 @@ public class Enviroment {
 		      System.out.println();
 		   }
 	}
+	public void printInitialState(){
+
+		   for(int i = 0; i < 8; i++)
+		   {
+		      for(int j = 0; j < 8; j++)
+		      {
+		         System.out.printf("%5d ", this.initialState[i][j]);
+		      }
+		      System.out.println();
+		   }
+	}
 	public List<Enviroment> getSuccessorStates(){
 		List<Enviroment> successorStates = new ArrayList<Enviroment>();
 		int[][] successorEnvState = enviromentState.clone();
