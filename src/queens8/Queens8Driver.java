@@ -36,6 +36,9 @@ public class Queens8Driver {
 					System.out.println("Failed to set initial state");
 				}
 			}
+			for(int i=0;i<gameList.size();i++){
+				hillClimbingSteepestAscent(gameList.get(i));
+			}
 		} catch (IOException e) {
 			return false;
 		}
@@ -47,5 +50,11 @@ public class Queens8Driver {
 		}
 		return true;
 	}
-
+	public static void hillClimbingSteepestAscent(Enviroment env){
+		while(true){
+			
+		}
+	}
+	
+	
 }
