@@ -28,7 +28,7 @@ public class puzzle8driver {
 //		System.out.println("The cost of getting 4 to its goalstate is " + Watson.calculateCost(gameList.get(0), 4));
 //		System.out.println("The total cost of solving the game is: "+ Watson.calculateCost(gameList.get(0)));
 //		System.out.println("\nmoving blank space down!\n");
-//		gameList.get(0).moveSpaceDown();
+//		gameList.get(0).move(1);
 //		System.out.println("========\nCurrent State");
 //		gameList.get(0).printCurrentEnviromentState();
 //		System.out.println("========\nGoal State");

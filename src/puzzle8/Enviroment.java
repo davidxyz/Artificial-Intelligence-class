@@ -15,7 +15,17 @@ public class Enviroment {
 	}
 	
 	public Enviroment clone(){
-		return new Enviroment(this.enviromentState, this.goalState, this.initialState, this.blankSpaceLocation);
+		return new Enviroment(deepCopyIntMatrix(enviromentState), deepCopyIntMatrix(goalState), deepCopyIntMatrix(initialState), blankSpaceLocation.clone());
+	}
+	
+	public static int[][] deepCopyIntMatrix(int[][] input) {
+	    if (input == null)
+	        return null;
+	    int[][] result = new int[input.length][];
+	    for (int r = 0; r < input.length; r++) {
+	        result[r] = input[r].clone();
+	    }
+	    return result;
 	}
 
 	public Enviroment(int[][] enviromentState, int[][] goalState, int[][] initialState, Tile blankSpaceLocation) {
@@ -140,13 +150,18 @@ public class Enviroment {
 	 * 1 up,2 down,3 left, 4 right
 	 */
 	public Enviroment move(int direction){
+		boolean b = false;
+		Enviroment that = this.clone();
 		switch (direction){
-		case 1: this.moveSpaceUp(); break;
-		case 2: this.moveSpaceDown(); break;
-		case 3: this.moveSpaceLeft(); break;
-		case 4: this.moveSpaceRight();break;
+		case 1: b=that.moveSpaceUp(); break;
+		case 2: b=that.moveSpaceDown(); break;
+		case 3: b=that.moveSpaceLeft(); break;
+		case 4: b=that.moveSpaceRight();break;
 		}
-		return this;
+		if (b=false){
+			return this;
+		}
+		return that;
 	}
 	
 	public void printBlankSpaceLocation(){
@@ -281,8 +296,13 @@ public class Enviroment {
 		Enviroment successorEnvState = this.clone();
 
 		  for(int j = 1;j<5;j++){
-			  Enviroment env = successorEnvState.clone().move(j);
+			  Enviroment env = new Enviroment();
+			  env = successorEnvState.clone();
+			  env.move(j);
 			  successorStates.add(env);
+			  //DEBUG
+			  System.out.println("===== printing succssor " + successorStates.size());
+			  env.printCurrentEnviromentState();
 		  }
 		  return successorStates;
 	}
