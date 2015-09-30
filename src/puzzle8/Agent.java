@@ -12,23 +12,22 @@ public class Agent {
 	public int SolvePuzzleHC(Enviroment cur) {
 		int cost = 0;
 		List<Enviroment> successorStates = cur.getSuccessorStates();
+		List<Enviroment> successorStatesChildren = null;
 		Enviroment lowest = cur.clone();
-		int minSolutionCost = cur.totalCost();
 
-		while (cur.manhattanCost() > 0||cur.hammingCost() > 0) {
+		while (cur.totalCost() > 0) {
 			for (Enviroment successorEnvState : successorStates) {
-				if (successorEnvState.totalCost() <= lowest.totalCost()) {
-					minSolutionCost = successorEnvState.totalCost();
-					if (lowest != successorEnvState) {
-						lowest = successorEnvState;
-					}
+				if (successorEnvState.totalCost() < lowest.totalCost()){
+					lowest = successorEnvState;
 				}
 			}
-			if (lowest.hammingCost() < cur.hammingCost() || lowest.manhattanCost() < cur.manhattanCost()) {
+			if (lowest.totalCost() < cur.totalCost()){
+				System.out.println("moving blank space");
 				cur = lowest;
 				cur.printCurrentEnviromentState();
+				System.out.println("cur Manhattan Distance: " + cur.manhattanCost());
+				System.out.println("cur Hamming Distance: " + cur.hammingCost());
 				successorStates = cur.getSuccessorStates();
-				cost++;
 			}
 		}
 		return cost;

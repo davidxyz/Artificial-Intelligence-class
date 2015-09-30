@@ -263,7 +263,6 @@ public class Enviroment {
 		int cost = -1;
 		Tile targetCurrentLocation = new Tile();
 		Tile targetGoalLocation = new Tile();
-		Tile whiteSpaceDistance = blankSpaceLocation.clone();
 
 		for (int j = 0; j < 3; j++) {
 			for (int k = 0; k < 3; k++) {
@@ -297,7 +296,7 @@ public class Enviroment {
 		int cost = -1;
 
 		cost = 0;
-		for (int i = 0; i < 8; i++) {
+		for (int i = 1; i < 9; i++) {
 			for (int j = 0; j < 3; j++) {
 				for (int k = 0; k < 3; k++) {
 					if (enviromentState[j][k] == i) {
@@ -313,7 +312,7 @@ public class Enviroment {
 		int misplaceTiles = -1;
 
 		misplaceTiles = 0;
-		for (int i = 0; i < 8; i++) {
+		for (int i = 1; i < 9; i++) {
 			for (int j = 0; j < 3; j++) {
 				for (int k = 0; k < 3; k++) {
 					if (enviromentState[j][k] == i) {
