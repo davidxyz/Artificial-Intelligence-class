@@ -18,6 +18,8 @@ public class puzzle8driver {
 		readGameFile(gameList);
 		System.out.println("========\nCurrent State");
 		gameList.get(0).printCurrentEnviromentState();
+		System.out.println("cur Manhattan Distance: " + gameList.get(0).manhattanCost());
+		System.out.println("cur Hamming Distance: " + gameList.get(0).hammingCost());
 		Watson.SolvePuzzleHC(gameList.get(0));
 		
 		
