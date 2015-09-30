@@ -12,7 +12,6 @@ public class Agent {
 	public int SolvePuzzleHC(Enviroment cur) {
 		int cost = 0;
 		List<Enviroment> successorStates = cur.getSuccessorStates();
-		List<Enviroment> successorStatesChild = new ArrayList<Enviroment>();
 		Enviroment lowest = cur.clone();
 		int minSolutionCost = cur.totalCost();
 
