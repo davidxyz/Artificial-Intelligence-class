@@ -1,7 +1,60 @@
 package puzzle8;
 
+import java.util.ArrayList;
+import java.util.List;
+
+
 public class Enviroment {
 	
+	public int[][] getEnviromentState() {
+		return enviromentState;
+	}
+
+	public void setEnviromentState(int[][] enviromentState) {
+		this.enviromentState = enviromentState;
+	}
+	
+	public Enviroment clone(){
+		return new Enviroment(this.enviromentState, this.goalState, this.initialState, this.blankSpaceLocation);
+	}
+
+	public Enviroment(int[][] enviromentState, int[][] goalState, int[][] initialState, Tile blankSpaceLocation) {
+		super();
+		this.enviromentState = enviromentState;
+		this.goalState = goalState;
+		this.initialState = initialState;
+		this.blankSpaceLocation = blankSpaceLocation;
+	}
+
+	public Enviroment() {
+		// TODO Auto-generated constructor stub
+	}
+
+	public int[][] getGoalState() {
+		return goalState;
+	}
+
+	public void setGoalState(int[][] goalState) {
+		this.goalState = goalState;
+	}
+
+	public int[][] getInitialState() {
+		return initialState;
+	}
+
+	public void setInitialState(int[][] initialState) {
+		this.initialState = initialState;
+	}
+
+	public Tile getBlankSpaceLocation() {
+		return blankSpaceLocation;
+	}
+
+	public void setBlankSpaceLocation(Tile blankSpaceLocation) {
+		this.blankSpaceLocation = blankSpaceLocation;
+	}
+
+
 	public int[][] enviromentState = new int[3][3];
 	public int[][] goalState = new int[3][3];
 	private int[][] initialState = new int[3][3];
@@ -80,6 +133,20 @@ public class Enviroment {
 		      }
 		      System.out.println();
 		   }
+	}
+	
+	/**
+	 * @param direction
+	 * 1 up,2 down,3 left, 4 right
+	 */
+	public Enviroment move(int direction){
+		switch (direction){
+		case 1: this.moveSpaceUp(); break;
+		case 2: this.moveSpaceDown(); break;
+		case 3: this.moveSpaceLeft(); break;
+		case 4: this.moveSpaceRight();break;
+		}
+		return this;
 	}
 	
 	public void printBlankSpaceLocation(){
@@ -165,5 +232,58 @@ public class Enviroment {
 		
 		return bResult;
 		
+	}
+	
+	public int calculateCost(int target){
+		int cost = -1;
+		Tile targetCurrentLocation = new Tile();
+		Tile targetGoalLocation = new Tile();
+		
+		for (int j = 0 ; j < 3 ; j++){
+			for (int k = 0 ; k < 3 ; k++){
+				if (goalState[j][k] == target){
+					targetGoalLocation.setCoords(j, k);
+				}
+			}
+		}
+		
+		for (int j = 0 ; j < 3 ; j++){
+			for (int k = 0 ; k < 3 ; k++){
+				if (enviromentState[j][k] == target){
+					targetCurrentLocation.setCoords(j, k);
+				}
+			}
+		}
+		cost = 0;
+		cost = Math.abs((targetCurrentLocation.horizontal - targetGoalLocation.horizontal)) + Math.abs((targetCurrentLocation.vertical - targetGoalLocation.vertical));
+		return cost;
+	}
+	
+	public int calculateCost(){
+		int cost = -1;
+		
+		cost = 0;
+		for (int i = 0 ; i < 8 ; i++){
+			for (int j = 0 ; j < 3 ; j++){
+				for (int k = 0 ; k < 3 ; k++){
+					if (enviromentState[j][k] == i){
+						cost += calculateCost(i);
+					}
+				}
+			}
+		}
+		return cost;
+	}
+	
+	
+	public List<Enviroment> getSuccessorStates(){
+		List<Enviroment> successorStates = new ArrayList<Enviroment>();
+		Enviroment successorEnvState = this.clone();
+
+		  for(int j = 1;j<5;j++){
+			  Enviroment env = successorEnvState.clone().move(j);
+			  successorStates.add(env);
+		  }
+		  return successorStates;
 	}
 }
