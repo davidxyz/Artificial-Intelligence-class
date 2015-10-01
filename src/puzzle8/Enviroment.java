@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Random;
 
 
-
 public class Enviroment {
 
 	public int[][] enviromentState = new int[3][3];
@@ -129,6 +128,7 @@ public class Enviroment {
 			}
 			System.out.println();
 		}
+		System.out.println("=======");
 	}
 	
 	public void printInitialEnviromentState() {
