@@ -20,11 +20,8 @@ public class Queens8Driver {
 		List<Enviroment> gameList;
 		gameList=readGameFile();
 		testSimulatedAnnealing(gameList);
-		gameList=readGameFile();
 		testHillClimbingRandomRestart(gameList);
-		gameList=readGameFile();
 		testHillClimbingSteepestAscent(gameList);
-		gameList=readGameFile();
 		testHillClimbingFirstChoice(gameList);
 	}
 	public static List<Enviroment> readGameFile() {
@@ -121,7 +118,7 @@ public class Queens8Driver {
 	public static int hillClimbingSteepestAscent(Enviroment env){
 		List<Enviroment> successorStates = env.getSuccessorStates();
 		int minHCost = Integer.MAX_VALUE;
-		Enviroment successorEnv = env; //start with current env
+		Enviroment successorEnv = env.clone(); //start with current env
 		boolean foundSuccessor = true; //bool on whether the algoirthim can find a successor state with a lower cost
 		//perfect solution minHCost = 0
 		//if we don't find a successor with a lower cost abort
@@ -202,7 +199,7 @@ public class Queens8Driver {
 	//complete but inefficient
 	public static int hillClimbingFirstChoice(Enviroment env){
 		int minHCost = Integer.MAX_VALUE;
-		Enviroment successorEnv = env; //start with current env
+		Enviroment successorEnv = env.clone(); //start with current env
 		Enviroment successorEnvContender= null;
 		
 		
@@ -237,7 +234,7 @@ public class Queens8Driver {
 	public static int hillClimbingRandomRestart(Enviroment env){
 		List<Enviroment> successorStates = env.getSuccessorStates();
 		int minHCost = Integer.MAX_VALUE;
-		Enviroment successorEnv = env; //start with current env
+		Enviroment successorEnv = env.clone(); //start with current env
 		boolean foundSuccessor; //bool on whether the algorithim can find a successor state with a lower cost
 		//perfect solution minHCost = 0
 		//if we don't find a successor with a lower cost abort
@@ -285,7 +282,7 @@ public class Queens8Driver {
 	}
 	public static int simulatedAnnealing(Enviroment env){
 		int minHCost = Integer.MAX_VALUE;
-		Enviroment successorEnv = env; //start with current env
+		Enviroment successorEnv = env.clone(); //start with current env
 		Enviroment successorEnvContender= null;
 		//perfect solution minHCost = 0
 		int badnessOfMove;

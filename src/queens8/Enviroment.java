@@ -33,6 +33,9 @@ public class Enviroment {
 		numQueens = num;
 		rand = new Random();
 	}
+	public Enviroment clone(){
+		return new Enviroment(initialState,Enviroment.deepCopyMatrix(enviromentState));
+	}
 	public boolean setInitialState(String initialState){
 		boolean bResult = false;
 		int iIndex = 0;
