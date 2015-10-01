@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 
 public class Queens8Driver {
@@ -14,9 +15,10 @@ public class Queens8Driver {
 		List<Enviroment> gameList = new ArrayList<Enviroment>();
 		readGameFile(gameList);
 		//gameList.get(0).printEnviromentState();
-		testHillClimbingRandomRestart(gameList);
-		testHillClimbingSteepestAscent(gameList);
-		testHillClimbingFirstChoice(gameList);
+		testSimulatedAnnealing(gameList);
+		//testHillClimbingRandomRestart(gameList);
+		//testHillClimbingSteepestAscent(gameList);
+		//testHillClimbingFirstChoice(gameList);
 	}
 	public static boolean readGameFile(List<Enviroment> gameList) {
 		BufferedReader reader = null;
@@ -90,7 +92,19 @@ public class Queens8Driver {
 		}
 		System.out.printf("(hill climbing random restart): solved problems: %.2f\n",(solved/gameList.size())*100);
 	}
-	
+	public static void testSimulatedAnnealing(List<Enviroment> gameList){
+		//hillClimbing steepest Ascent
+		int cost = 0;
+		float solved=0;
+		for(int i=0;i<gameList.size();i++){
+			cost = simulatedAnnealing(gameList.get(i));
+			if(cost == 0){
+				
+				solved++;
+			}
+		}
+		System.out.printf("(simulated annealing): solved problems: %.2f\n",(solved/gameList.size())*100);
+	}
 	/**
 	 * Non limiting steepest ascent which aborts if it found the perfect solution or a local minimum
 	 * @param env
@@ -254,6 +268,61 @@ public class Queens8Driver {
 		}
 		return minHCost;
 		
+	}
+	public static int simulatedAnnealing(Enviroment env){
+		int minHCost = Integer.MAX_VALUE;
+		Enviroment successorEnv = env; //start with current env
+		Enviroment successorEnvContender= null;
+		//perfect solution minHCost = 0
+		int badnessOfMove;
+		double probabilityOfAcceptingBadMoveBase=0.999;//less than 1
+		double probabilityOfAcceptingBadMove;
+		while(minHCost!=0 || successorEnv.getNumQueens()!=8){
+
+			successorEnvContender = successorEnv.getSuccessorStateRandomly();
+			int curHCost = hueristicCost(successorEnvContender);
+			
+			if(curHCost<minHCost){
+				minHCost = curHCost;
+				successorEnv = successorEnvContender;
+			}else{
+				badnessOfMove = curHCost - minHCost;
+				probabilityOfAcceptingBadMove = probabilityOfAcceptingBadMoveBase+Math.exp(-badnessOfMove);//exponentially decreases
+				
+				if(didTheProbabilityOccur(probabilityOfAcceptingBadMove)){
+					successorEnv = successorEnvContender;
+				}
+			}
+			probabilityOfAcceptingBadMoveBase-=0.005;
+			//reset minHCost if we don't have 8 queens on the board
+			if(successorEnv.getNumQueens()!=8){
+				minHCost = Integer.MAX_VALUE;
+			}
+	}
+
+	if(DEBUG&&minHCost==0){
+		System.out.printf("solved:\n");
+		System.out.printf("ENV init state:\n");
+		successorEnv.printInitialState();
+		System.out.println("solution:\n");
+		successorEnv.printEnviromentState();
+	}
+	return minHCost;
+
+}
+	public static boolean didTheProbabilityOccur(double chance){
+		Random rand= new Random();
+		int randnum = rand.nextInt((100 - 0) + 1);
+		chance = Math.round(chance * 1000.0) / 1000.0;
+		double iterator = 0;
+		
+		while((int)(iterator*1000)!=(int)(chance*1000)){
+			if(randnum == (int)(iterator*1000)){
+				return true;
+			}
+			iterator+=0.001;
+		}
+		return false;
 	}
 
 }
