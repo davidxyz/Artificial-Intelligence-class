@@ -365,4 +365,6 @@ public Enviroment getSuccessorStateRandomly(){
 	return null;//error. Shouldn't get here ever!
 }
 
+
+
 }

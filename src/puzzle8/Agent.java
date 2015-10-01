@@ -150,10 +150,9 @@ public class Agent {
 						minHCost = curHCost;
 						successorEnv = successorStates.get(i);
 						foundSuccessor = true;
-						
+						randRestartPathCost++;
 					}
 				}
-				randRestartPathCost++;
 				if(successorEnv.totalCost()!=0){
 					minHCost = Integer.MAX_VALUE;
 				}
@@ -196,10 +195,9 @@ public class Agent {
 					minHCost = curHCost;
 					successorEnv = successorStates.get(i);
 					foundSuccessor = true;
-					successorEnv.printCurrentEnviromentState();
+					steepestAscentPathCost++;
 				}
 			}
-			steepestAscentPathCost++;
 			//reset minHCost if we don't have 8 queens on the board
 			if(successorEnv.totalCost()!=0){
 				minHCost = Integer.MAX_VALUE;
@@ -233,8 +231,8 @@ public class Agent {
 			if(curHCost<minHCost){
 				minHCost = curHCost;
 				successorEnv = successorEnvContender;
+				firstChoicePathCost++;
 			}
-			firstChoicePathCost++;
 			if(successorEnv.totalCost()!=0){
 				minHCost = Integer.MAX_VALUE;
 			}
@@ -266,7 +264,7 @@ public class Agent {
 			if(curHCost<minHCost){
 				minHCost = curHCost;
 				successorEnv = successorEnvContender;
-	
+				simPathCost++;
 			}else{
 				badnessOfMove = curHCost - minHCost;
 				probabilityOfAcceptingBadMove = probabilityOfAcceptingBadMoveBase+Math.exp(-badnessOfMove);//exponentially decreases
@@ -276,7 +274,6 @@ public class Agent {
 		
 				}
 			}
-			simPathCost++;
 			probabilityOfAcceptingBadMoveBase-=0.005;//randomly chosen
 			//reset minHCost if we don't have 8 queens on the board
 			if(successorEnv.totalCost()!=0){
@@ -296,16 +293,11 @@ public class Agent {
 	
 	public static boolean didTheProbabilityOccur(double chance){
 		Random rand= new Random();
-		int randnum = rand.nextInt((100 - 0) + 1);
-		chance = Math.round(chance * 1000.0) / 1000.0;
-		double iterator = 0;
+		int randnum = rand.nextInt((1000 - 0) + 1);
 		
-		while((int)(iterator*1000)!=(int)(chance*1000)){
-			if(randnum == (int)(iterator*1000)){
+			if(randnum>0&&randnum < (int)(chance*1000)){
 				return true;
 			}
-			iterator+=0.001;
-		}
 		return false;
 	}
 }
