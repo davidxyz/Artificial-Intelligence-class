@@ -12,15 +12,18 @@ import java.util.Random;
 public class Queens8Driver {
 	final static boolean DEBUG = false;
 	public static void main(String[] args) {
-		List<Enviroment> gameList = new ArrayList<Enviroment>();
-		readGameFile(gameList);
-		//gameList.get(0).printEnviromentState();
+		List<Enviroment> gameList;
+		gameList=readGameFile();
 		testSimulatedAnnealing(gameList);
-		//testHillClimbingRandomRestart(gameList);
-		//testHillClimbingSteepestAscent(gameList);
-		//testHillClimbingFirstChoice(gameList);
+		gameList=readGameFile();
+		testHillClimbingRandomRestart(gameList);
+		gameList=readGameFile();
+		testHillClimbingSteepestAscent(gameList);
+		gameList=readGameFile();
+		testHillClimbingFirstChoice(gameList);
 	}
-	public static boolean readGameFile(List<Enviroment> gameList) {
+	public static List<Enviroment> readGameFile() {
+		List<Enviroment> gameList = new ArrayList<Enviroment>();
 		BufferedReader reader = null;
 		String input = null;
 		Enviroment gameState = new Enviroment();
@@ -28,7 +31,7 @@ public class Queens8Driver {
 		try {
 			reader = new BufferedReader(new FileReader("10eightqueens.txt"));
 		} catch (FileNotFoundException e) {
-			return false;
+			return null;
 		}
 
 		try {
@@ -43,7 +46,7 @@ public class Queens8Driver {
 			}
 		
 		} catch (IOException e) {
-			return false;
+			return null;
 		}
 		try {
 			reader.close();
@@ -51,7 +54,7 @@ public class Queens8Driver {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return true;
+		return gameList;
 	}
 	public static void testHillClimbingSteepestAscent(List<Enviroment> gameList){
 		//hillClimbing steepest Ascent
@@ -293,7 +296,7 @@ public class Queens8Driver {
 					successorEnv = successorEnvContender;
 				}
 			}
-			probabilityOfAcceptingBadMoveBase-=0.005;
+			probabilityOfAcceptingBadMoveBase-=0.004;//randomly chosen
 			//reset minHCost if we don't have 8 queens on the board
 			if(successorEnv.getNumQueens()!=8){
 				minHCost = Integer.MAX_VALUE;
