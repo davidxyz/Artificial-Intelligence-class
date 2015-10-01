@@ -23,7 +23,7 @@ public class Agent {
 		List<Enviroment> gameList = new ArrayList<Enviroment>();
 		readGameFile(gameList);
 		//testHillClimbingSteepestAscent(gameList);
-		//testHillClimbingFirstChoice(gameList);
+		testHillClimbingFirstChoice(gameList);
 		//testHillClimbingRandomRestart(gameList);
 		testSimulatedAnnealing(gameList);
 		
