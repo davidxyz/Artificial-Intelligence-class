@@ -18,18 +18,25 @@ public class puzzle8driver {
 		readGameFile(gameList);
 		System.out.println("========\nCurrent State");
 		gameList.get(0).printCurrentEnviromentState();
-		System.out.println("========\nGoal State");
-		gameList.get(0).printGoalEnviromentState();
-		System.out.println("The cost of getting 4 to its goalstate is " + Watson.calculateCost(gameList.get(0), 4));
-		System.out.println("The total cost of solving the game is: "+ Watson.calculateCost(gameList.get(0)));
-		System.out.println("\nmoving blank space down!\n");
-		gameList.get(0).moveSpaceDown();
-		System.out.println("========\nCurrent State");
-		gameList.get(0).printCurrentEnviromentState();
-		System.out.println("========\nGoal State");
-		gameList.get(0).printGoalEnviromentState();
-		System.out.println("The cost of getting 4 to its goalstate is " + Watson.calculateCost(gameList.get(0), 4));
-		System.out.println("The total cost of solving the game is: "+ Watson.calculateCost(gameList.get(0)));
+		System.out.println("cur Manhattan Distance: " + gameList.get(0).manhattanCost());
+		System.out.println("cur Hamming Distance: " + gameList.get(0).hammingCost());
+		Watson.SolvePuzzleHC(gameList.get(0));
+		
+		
+		
+		
+//		System.out.println("========\nGoal State");
+//		gameList.get(0).printGoalEnviromentState();
+//		System.out.println("The cost of getting 4 to its goalstate is " + Watson.calculateCost(gameList.get(0), 4));
+//		System.out.println("The total cost of solving the game is: "+ Watson.calculateCost(gameList.get(0)));
+//		System.out.println("\nmoving blank space down!\n");
+//		gameList.get(0).move(1);
+//		System.out.println("========\nCurrent State");
+//		gameList.get(0).printCurrentEnviromentState();
+//		System.out.println("========\nGoal State");
+//		gameList.get(0).printGoalEnviromentState();
+//		System.out.println("The cost of getting 4 to its goalstate is " + Watson.calculateCost(gameList.get(0), 4));
+//		System.out.println("The total cost of solving the game is: "+ Watson.calculateCost(gameList.get(0)));
 		
 	}
 	

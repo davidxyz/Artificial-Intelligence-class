@@ -1,52 +1,51 @@
 package puzzle8;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import java.util.Random;
+
+import puzzle8.Enviroment;
+
 public class Agent {
-	
-	public int calculateCost(Enviroment currentEnviroment){
-		int cost = -1;
-		
-		cost = 0;
-		for (int i = 0 ; i < 8 ; i++){
-			for (int j = 0 ; j < 3 ; j++){
-				for (int k = 0 ; k < 3 ; k++){
-					if (currentEnviroment.enviromentState[j][k] == i){
-						cost += calculateCost(currentEnviroment, i);
-					}
+
+	public int SolvePuzzleHC(Enviroment cur) {
+		int cost = 0;
+		List<Enviroment> successorStates = cur.getSuccessorStates();
+		List<Enviroment> successorStatesChildren = null;
+		Enviroment lowest = cur.clone();
+
+		while (cur.totalCost() > 0) {
+			for (Enviroment successorEnvState : successorStates) {
+				if (successorEnvState.totalCost() < lowest.totalCost()){
+					lowest = successorEnvState;
 				}
 			}
+			if (lowest.totalCost() < cur.totalCost()){
+				System.out.println("moving blank space");
+				cur = lowest;
+				cur.printCurrentEnviromentState();
+				System.out.println("cur Manhattan Distance: " + cur.manhattanCost());
+				System.out.println("cur Hamming Distance: " + cur.hammingCost());
+				successorStates = cur.getSuccessorStates();
+			}
 		}
-		
 		return cost;
-		
-	}
-	
-	public int calculateCost(Enviroment currentEnviroment, int target){
-		int cost = -1;
-		Tile targetCurrentLocation = new Tile();
-		Tile targetGoalLocation = new Tile();
-		
-		for (int j = 0 ; j < 3 ; j++){
-			for (int k = 0 ; k < 3 ; k++){
-				if (currentEnviroment.goalState[j][k] == target){
-					targetGoalLocation.setCoords(j, k);
-				}
-			}
-		}
-		
-		for (int j = 0 ; j < 3 ; j++){
-			for (int k = 0 ; k < 3 ; k++){
-				if (currentEnviroment.enviromentState[j][k] == target){
-					targetCurrentLocation.setCoords(j, k);
-				}
-			}
-		}
-		
-		cost = 0;
-		
-		cost = Math.abs((targetCurrentLocation.horizontal - targetGoalLocation.horizontal)) + Math.abs((targetCurrentLocation.vertical - targetGoalLocation.vertical));
-		
-		return cost;
-		
 	}
 
+	public boolean SolvePuzzleRR(Enviroment cur) {
+		boolean bResult = false;
+		Random r = new Random();
+
+		while (cur.manhattanCost() > 0) {
+			cur.getSuccessorStates();
+		}
+		return bResult;
+	}
+
+	public boolean SolvePuzzleSA(Enviroment cur) {
+		boolean bResult = false;
+
+		return bResult;
+	}
 }
