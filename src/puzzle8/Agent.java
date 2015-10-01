@@ -47,10 +47,37 @@ public class Agent {
 		return minHCost;
 	}
 
-	public boolean SolvePuzzleRR(Enviroment cur) {
-		boolean bResult = false;
+	public int SolvePuzzleRR(Enviroment env) {
+		int minHCost = Integer.MAX_VALUE;
+		Enviroment successorEnv = env; //start with current env
+		Enviroment successorEnvContender= null;
+		
+		
+		//perfect solution minHCost = 0
+		//if we don't find a successor with a lower cost abort
+		while(minHCost!=0 || successorEnv.manhattanCost()!=0){
 
-		return bResult;
+			successorEnvContender = successorEnv.getSuccessorStateRandomly();
+			int curHCost = successorEnvContender.totalCost();
+			if(curHCost<minHCost){
+				minHCost = curHCost;
+				successorEnv = successorEnvContender;
+			}
+			//reset minHCost if we don't have 8 queens on the board
+			//because the minHCost doesn't count when less than 8 queens are on board
+			if(successorEnv.manhattanCost()!=0){
+				minHCost = Integer.MAX_VALUE;
+			}
+	}
+		
+		if(DEBUG&&minHCost==0){
+			System.out.printf("solved:\n");
+			System.out.printf("ENV init state:\n");
+			successorEnv.printInitialEnviromentState();
+			System.out.println("solution:\n");
+			successorEnv.printCurrentEnviromentState();
+		}
+		return minHCost;
 	}
 
 	public boolean SolvePuzzleSA(Enviroment cur) {

@@ -8,14 +8,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-
 public class puzzle8driver {
 	
 	
 	public static void main(String[] args) {
 		List<Enviroment> gameList = new ArrayList<Enviroment>();
 		readGameFile(gameList);
-		testHillClimbingSteepestAscent(gameList);
+		//testHillClimbingSteepestAscent(gameList);
+		testHillClimbingFirstChoice(gameList);
 		
 
 	}
@@ -33,6 +33,21 @@ public class puzzle8driver {
 			}
 		}
 		System.out.printf("solved problems: %.2f\n",(solved/gameList.size())*100);
+	}
+	
+	public static void testHillClimbingFirstChoice(List<Enviroment> gameList){
+		Agent hillClimberFirstChoice = new Agent();
+		//hillClimbing steepest Ascent
+		int cost = 0;
+		float solved=0;
+		for(int i=0;i<gameList.size();i++){
+			cost = hillClimberFirstChoice.SolvePuzzleRR(gameList.get(i));
+			if(cost == 0){
+				
+				solved++;
+			}
+		}
+		System.out.printf("(hill climbing first choice): solved problems: %.2f\n",(solved/gameList.size())*100);
 	}
 	
 	

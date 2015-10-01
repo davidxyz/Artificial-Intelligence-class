@@ -2,6 +2,9 @@ package puzzle8;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
+
+
 
 public class Enviroment {
 
@@ -9,9 +12,11 @@ public class Enviroment {
 	public int[][] goalState = new int[3][3];
 	private int[][] initialState = new int[3][3];
 	private Tile blankSpaceLocation = new Tile();
+	private Random rand;
 
 	public Enviroment(int[][] enviromentState, int[][] goalState, int[][] initialState, Tile blankSpaceLocation) {
 		super();
+		rand = new Random();
 		this.enviromentState = enviromentState;
 		this.goalState = goalState;
 		this.initialState = initialState;
@@ -19,6 +24,7 @@ public class Enviroment {
 	}
 
 	public Enviroment() {
+		rand = new Random();
 		// TODO Auto-generated constructor stub
 	}
 
@@ -346,4 +352,26 @@ public class Enviroment {
 		}
 		return successorStates;
 	}
+	
+	private int randInt(int min, int max){
+
+
+	    int randomNum = rand.nextInt((max - min) + 1) + min;
+
+	    return randomNum;
+}
+public Enviroment getSuccessorStateRandomly(){
+	int[][] successorEnvState = enviromentState;
+	if(this.manhattanCost()>0){
+			  return getSuccessorStates().get(randInt(0,getSuccessorStates().size()-1));
+	}else{
+			if(this.totalCost() > 0){
+				return getSuccessorStates().get(randInt(0,getSuccessorStates().size()-1));
+				
+			}			    		  
+	   
+	}
+	return null;//error. Shouldn't get here ever!
+}
+
 }
