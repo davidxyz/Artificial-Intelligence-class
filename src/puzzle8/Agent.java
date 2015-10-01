@@ -32,7 +32,7 @@ public class Agent {
 	
 	public static void testSimulatedAnnealing(List<Enviroment> gameList){
 		Agent simulatedAnnealing = new Agent();
-		//Simulated Annealing
+		//simulated annealing
 		int cost = 0;
 		float solved=0;
 		for(int i=0;i<gameList.size();i++){
@@ -46,7 +46,7 @@ public class Agent {
 	}
 	
 	public static void testHillClimbingRandomRestart(List<Enviroment> gameList){
-		//hillClimbing steepest Ascent
+		//hillClimbing random restart
 		int cost = 0;
 		float solved=0;
 		for(int i=0;i<gameList.size();i++){
@@ -61,7 +61,7 @@ public class Agent {
 	
 	public static void testHillClimbingSteepestAscent(List<Enviroment> gameList){
 		Agent hillClimber = new Agent();
-		//hillClimbing steepest Ascent
+		//hillClimbing steepest ascent
 		
 		int cost = 0;
 		float solved=0;
@@ -134,7 +134,7 @@ public class Agent {
 		List<Enviroment> successorStates = env.getSuccessorStates();
 		int minHCost = Integer.MAX_VALUE;
 		Enviroment successorEnv = env.clone(); //start with current env
-		boolean foundSuccessor; //bool on whether the algorithim can findÂ a successorÂ state with a lower cost
+		boolean foundSuccessor; //bool on whether the algorithim can find a successor state with a lower cost
 		//perfect solution minHCost = 0
 		//if we don't find a successor with a lower cost abort
 		while(minHCost!=0){//until complete
@@ -152,9 +152,9 @@ public class Agent {
 						foundSuccessor = true;
 					}
 				}
-				if(successorEnv.totalCost()!=0){
-					minHCost = Integer.MAX_VALUE;
-				}
+//				if(successorEnv.totalCost()!=0){
+//					minHCost = Integer.MAX_VALUE;
+//				}
 				successorEnv.printCurrentEnviromentState();
 				successorStates = successorEnv.getSuccessorStates();
 			}
@@ -184,7 +184,7 @@ public class Agent {
 		List<Enviroment> successorStates = env.getSuccessorStates();
 		int minHCost = Integer.MAX_VALUE;
 		Enviroment successorEnv = env.clone(); //start with current env
-		boolean foundSuccessor = true; //bool on whether the algoirthim can findÂ a successorÂ state with a lower cost
+		boolean foundSuccessor = true; //bool on whether the algoirthim can find a successor state with a lower cost
 		//perfect solution minHCost = 0
 		//if we don't find a successor with a lower cost abort
 		while((minHCost!=0 && foundSuccessor)||successorEnv.totalCost()!=0){
@@ -199,7 +199,7 @@ public class Agent {
 					steepestAscentPathCost++;
 				}
 			}
-			//reset minHCost if we don't have 8 queens on the board
+			//reset minHCost
 			if(successorEnv.totalCost()!=0){
 				minHCost = Integer.MAX_VALUE;
 			}
