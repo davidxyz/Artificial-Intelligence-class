@@ -23,8 +23,8 @@ public class Enviroment {
 	}
 
 	public Enviroment clone() {
-		return new Enviroment(deepCopyIntMatrix(enviromentState), deepCopyIntMatrix(goalState),
-				deepCopyIntMatrix(initialState), blankSpaceLocation.clone());
+		return new Enviroment(deepCopyIntMatrix(enviromentState), goalState,
+			initialState, blankSpaceLocation.clone());
 	}
 
 	public static int[][] deepCopyIntMatrix(int[][] input) {
@@ -128,6 +128,16 @@ public class Enviroment {
 			System.out.println();
 		}
 	}
+	
+	public void printInitialEnviromentState() {
+
+		for (int i = 0; i < 3; i++) {
+			for (int j = 0; j < 3; j++) {
+				System.out.printf("%5d ", this.initialState[i][j]);
+			}
+			System.out.println();
+		}
+	}
 
 	public void printGoalEnviromentState() {
 
@@ -185,8 +195,6 @@ public class Enviroment {
 			this.blankSpaceLocation.vertical = this.blankSpaceLocation.vertical - 1;
 			bResult = true;
 
-		} else {
-			System.out.println("Cannot move above top row!");
 		}
 
 		return bResult;
@@ -207,8 +215,6 @@ public class Enviroment {
 			this.blankSpaceLocation.vertical = this.blankSpaceLocation.vertical + 1;
 			bResult = true;
 
-		} else {
-			System.out.println("Cannot move below bottom row!");
 		}
 
 		return bResult;
@@ -229,8 +235,6 @@ public class Enviroment {
 			this.blankSpaceLocation.horizontal = this.blankSpaceLocation.horizontal - 1;
 			bResult = true;
 
-		} else {
-			System.out.println("Cannot move beyond left edge!");
 		}
 
 		return bResult;
@@ -251,8 +255,6 @@ public class Enviroment {
 			this.blankSpaceLocation.horizontal = this.blankSpaceLocation.horizontal + 1;
 			bResult = true;
 
-		} else {
-			System.out.println("Cannot move beyond right edge!");
 		}
 
 		return bResult;
@@ -325,6 +327,8 @@ public class Enviroment {
 		}
 		return misplaceTiles;
 	}
+	
+	
 
 	public List<Enviroment> getSuccessorStates() {
 		List<Enviroment> successorStates = new ArrayList<Enviroment>();

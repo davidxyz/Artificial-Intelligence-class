@@ -14,31 +14,27 @@ public class puzzle8driver {
 	
 	public static void main(String[] args) {
 		List<Enviroment> gameList = new ArrayList<Enviroment>();
-		Agent Watson = new Agent();
 		readGameFile(gameList);
-		System.out.println("========\nCurrent State");
-		gameList.get(0).printCurrentEnviromentState();
-		System.out.println("cur Manhattan Distance: " + gameList.get(0).manhattanCost());
-		System.out.println("cur Hamming Distance: " + gameList.get(0).hammingCost());
-		Watson.SolvePuzzleHC(gameList.get(0));
+		testHillClimbingSteepestAscent(gameList);
 		
-		
-		
-		
-//		System.out.println("========\nGoal State");
-//		gameList.get(0).printGoalEnviromentState();
-//		System.out.println("The cost of getting 4 to its goalstate is " + Watson.calculateCost(gameList.get(0), 4));
-//		System.out.println("The total cost of solving the game is: "+ Watson.calculateCost(gameList.get(0)));
-//		System.out.println("\nmoving blank space down!\n");
-//		gameList.get(0).move(1);
-//		System.out.println("========\nCurrent State");
-//		gameList.get(0).printCurrentEnviromentState();
-//		System.out.println("========\nGoal State");
-//		gameList.get(0).printGoalEnviromentState();
-//		System.out.println("The cost of getting 4 to its goalstate is " + Watson.calculateCost(gameList.get(0), 4));
-//		System.out.println("The total cost of solving the game is: "+ Watson.calculateCost(gameList.get(0)));
-		
+
 	}
+	
+	public static void testHillClimbingSteepestAscent(List<Enviroment> gameList){
+		Agent hillClimber = new Agent();
+		//hillClimbing steepest Ascent
+		
+		int cost = 0;
+		float solved=0;
+		for(int i=0;i<gameList.size();i++){
+			cost = hillClimber.SolvePuzzleHC(gameList.get(i));
+			if(cost == 0){
+				solved++;
+			}
+		}
+		System.out.printf("solved problems: %.2f\n",(solved/gameList.size())*100);
+	}
+	
 	
 	public static boolean readGameFile(List<Enviroment> gameList) {
 		BufferedReader reader = null;

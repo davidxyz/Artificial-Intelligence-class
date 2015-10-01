@@ -8,38 +8,48 @@ import java.util.Random;
 import puzzle8.Enviroment;
 
 public class Agent {
+	final static boolean DEBUG = true;
+	
 
-	public int SolvePuzzleHC(Enviroment cur) {
-		int cost = 0;
-		List<Enviroment> successorStates = cur.getSuccessorStates();
-		List<Enviroment> successorStatesChildren = null;
-		Enviroment lowest = cur.clone();
-
-		while (cur.totalCost() > 0) {
-			for (Enviroment successorEnvState : successorStates) {
-				if (successorEnvState.totalCost() < lowest.totalCost()){
-					lowest = successorEnvState;
+	public int SolvePuzzleHC(Enviroment env) {
+		List<Enviroment> successorStates = env.getSuccessorStates();
+		int minHCost = Integer.MAX_VALUE;
+		Enviroment successorEnv = env; //start with current env
+		boolean foundSuccessor = true; //bool on whether the algoirthim can find a successor state with a lower cost
+		//perfect solution minHCost = 0
+		//if we don't find a successor with a lower cost abort
+		while((minHCost!=0 && foundSuccessor)||successorEnv.manhattanCost()!=0){
+			foundSuccessor = false;
+			
+			for(int i=0; i<successorStates.size();i++){
+				int curHCost = successorStates.get(i).totalCost();
+				if(curHCost<minHCost){
+					minHCost = curHCost;
+					successorEnv = successorStates.get(i);
+					foundSuccessor = true;
 				}
 			}
-			if (lowest.totalCost() < cur.totalCost()){
-				System.out.println("moving blank space");
-				cur = lowest;
-				cur.printCurrentEnviromentState();
-				System.out.println("cur Manhattan Distance: " + cur.manhattanCost());
-				System.out.println("cur Hamming Distance: " + cur.hammingCost());
-				successorStates = cur.getSuccessorStates();
+			//reset minHCost if we don't have 8 queens on the board
+			if(successorEnv.manhattanCost()!=8){
+				minHCost = Integer.MAX_VALUE;
 			}
+			
+			successorStates = successorEnv.getSuccessorStates();
+		
 		}
-		return cost;
+		if(DEBUG&&minHCost==0){
+			System.out.printf("solved:\n");
+			System.out.printf("ENV init state:\n");
+			successorEnv.printInitialEnviromentState();
+			System.out.println("solution:\n");
+			successorEnv.printCurrentEnviromentState();
+		}
+		return minHCost;
 	}
 
 	public boolean SolvePuzzleRR(Enviroment cur) {
 		boolean bResult = false;
-		Random r = new Random();
 
-		while (cur.manhattanCost() > 0) {
-			cur.getSuccessorStates();
-		}
 		return bResult;
 	}
 
