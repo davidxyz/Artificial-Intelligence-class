@@ -23,9 +23,9 @@ public class Agent {
 		List<Enviroment> gameList = new ArrayList<Enviroment>();
 		readGameFile(gameList);
 		//testHillClimbingSteepestAscent(gameList);
-		testHillClimbingFirstChoice(gameList);
+		//testHillClimbingFirstChoice(gameList);
 		//testHillClimbingRandomRestart(gameList);
-		//testSimulatedAnnealing(gameList);
+		testSimulatedAnnealing(gameList);
 		
 
 	}
@@ -257,10 +257,10 @@ public class Agent {
 		int badnessOfMove;
 		double probabilityOfAcceptingBadMoveBase=0.999;//less than 1
 		double probabilityOfAcceptingBadMove;
-		while(minHCost!=0 || successorEnv.totalCost()!=0){
+		while(minHCost!=0 || successorEnv.manhattanCost()!=0){
 
 			successorEnvContender = successorEnv.getSuccessorStateRandomly();
-			int curHCost = successorEnvContender.totalCost();
+			int curHCost = successorEnvContender.manhattanCost();
 			
 			if(curHCost<minHCost){
 				minHCost = curHCost;
@@ -275,9 +275,9 @@ public class Agent {
 		
 				}
 			}
-			probabilityOfAcceptingBadMoveBase-=0.005;//randomly chosen
-			if(successorEnv.totalCost()!=0){
-				minHCost = Integer.MAX_VALUE;
+			probabilityOfAcceptingBadMoveBase-=0.25;//randomly chosen
+			if(successorEnv.totalCost()!=0 && minHCost < minHCost++){
+				minHCost++;
 			}
 	}
 
