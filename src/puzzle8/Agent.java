@@ -23,8 +23,8 @@ public class Agent {
 		List<Enviroment> gameList = new ArrayList<Enviroment>();
 		readGameFile(gameList);
 		//testHillClimbingSteepestAscent(gameList);
-		//testHillClimbingFirstChoice(gameList);
-		testHillClimbingRandomRestart(gameList);
+		testHillClimbingFirstChoice(gameList);
+		//testHillClimbingRandomRestart(gameList);
 		//testSimulatedAnnealing(gameList);
 		
 
@@ -152,9 +152,9 @@ public class Agent {
 						foundSuccessor = true;
 					}
 				}
-//				if(successorEnv.totalCost()!=0){
-//					minHCost = Integer.MAX_VALUE;
-//				}
+				if(successorEnv.totalCost()!=0){
+					minHCost = Integer.MAX_VALUE;
+				}
 				successorEnv.printCurrentEnviromentState();
 				successorStates = successorEnv.getSuccessorStates();
 			}
@@ -218,7 +218,7 @@ public class Agent {
 	}
 
 	public int solveHillClimbFirstChoice(Enviroment env) {
-		int minHCost = Integer.MAX_VALUE;
+		int minHCost = 26;
 		Enviroment successorEnv = env.clone(); //start with current env
 		Enviroment successorEnvContender= null;
 		
@@ -235,7 +235,7 @@ public class Agent {
 				firstChoicePathCost++;
 			}
 			if(successorEnv.totalCost()!=0){
-				minHCost = Integer.MAX_VALUE;
+				minHCost++;
 			}
 	}
 		
@@ -276,7 +276,6 @@ public class Agent {
 				}
 			}
 			probabilityOfAcceptingBadMoveBase-=0.005;//randomly chosen
-			//reset minHCost if we don't have 8 queens on the board
 			if(successorEnv.totalCost()!=0){
 				minHCost = Integer.MAX_VALUE;
 			}
