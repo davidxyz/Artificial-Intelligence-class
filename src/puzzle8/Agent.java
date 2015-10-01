@@ -24,8 +24,8 @@ public class Agent {
 		readGameFile(gameList);
 		//testHillClimbingSteepestAscent(gameList);
 		//testHillClimbingFirstChoice(gameList);
-		//testHillClimbingRandomRestart(gameList);
-		testSimulatedAnnealing(gameList);
+		testHillClimbingRandomRestart(gameList);
+		//testSimulatedAnnealing(gameList);
 		
 
 	}
@@ -150,7 +150,6 @@ public class Agent {
 						minHCost = curHCost;
 						successorEnv = successorStates.get(i);
 						foundSuccessor = true;
-						randRestartPathCost++;
 					}
 				}
 				if(successorEnv.totalCost()!=0){
@@ -162,7 +161,9 @@ public class Agent {
 			//random restarter
 			if(!foundSuccessor){
 				//coudn't find a successor generate a random valid initial state and try again:
-				successorEnv = env.getSuccessorStateRandomly();
+				successorEnv = successorEnv.generateRandomInitialEnv();
+				successorStates = successorEnv.getSuccessorStates();
+				randRestartPathCost++;
 			}
 
 		}

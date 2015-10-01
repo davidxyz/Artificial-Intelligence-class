@@ -31,6 +31,11 @@ public class Enviroment {
 		return new Enviroment(deepCopyIntMatrix(enviromentState), goalState,
 			initialState, blankSpaceLocation.clone());
 	}
+	
+	public Enviroment clone(int [][] initialstate) {
+		return new Enviroment(deepCopyIntMatrix(initialstate), goalState,
+				initialstate, blankSpaceLocation.clone());
+	}
 
 	public static int[][] deepCopyIntMatrix(int[][] input) {
 		if (input == null)
@@ -365,6 +370,37 @@ public Enviroment getSuccessorStateRandomly(){
 	return null;//error. Shouldn't get here ever!
 }
 
-
+public Enviroment generateRandomInitialEnv(){
+	int [][] initialstate = new int[3][3];
+	ArrayList<Integer> tileValues = new ArrayList<Integer>();
+	
+	for (int i = 0;i<9;i++){
+		tileValues.add(i);
+	}
+	for (int j = 0; j < 3; j++) {
+		for (int k = 0; k < 3; k++) {
+			initialstate[j][k] = tileValues.remove(randInt(0, tileValues.size()-1));
+		}
+	}
+	Enviroment initEnv =  new Enviroment(deepCopyIntMatrix(initialstate), this.goalState,initialstate, blankSpaceLocation.clone());
+	//make sure it is a valid initial state! If not try again.
+	while(initEnv.totalCost()!=0){
+		initialstate = new int[3][3];
+		tileValues = new ArrayList<Integer>();
+		
+		for (int i = 0;i<9;i++){
+			tileValues.add(i);
+		}
+		for (int j = 0; j < 3; j++) {
+			for (int k = 0; k < 3; k++) {
+				initialstate[j][k] = tileValues.remove(randInt(0, tileValues.size()-1));
+			}
+		}
+		initEnv =  new Enviroment(deepCopyIntMatrix(initialstate), this.goalState,initialstate, blankSpaceLocation.clone());
+		
+	}
+	return initEnv;
+	
+}
 
 }
