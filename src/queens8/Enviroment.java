@@ -192,6 +192,42 @@ public class Enviroment {
 		}
 		return null;//error. Shouldn't get here ever!
 	}
+	public static Enviroment generateRandomInitialEnv(){
+		Random rand = new Random();
+		int [][] initialstate = new int[8][8];
+		//how many queens are we putting on the board (random)
+		int numQueens = rand.nextInt((7 - 0) + 1);
+		int y;
+		//where are we putting these queens(random)
+		y=rand.nextInt((7 - 0) + 1);
+		for(int i = 0; i < numQueens; i++)
+		   {
+					while(initialstate[y][i]==1){//we found a queen there already
+						y=rand.nextInt((7 - 0) + 1);
+
+					}
+		        	initialstate[y][i]=1;
+		   }
+		Enviroment initEnv = new Enviroment(initialstate,initialstate);
+		
+		//make sure it is a valid initial state! If not try again.
+		while(Queens8Driver.hueristicCost(initEnv)!=0){
+			numQueens = rand.nextInt((8 - 0) + 1);
+			initialstate = new int[8][8];
+			y=rand.nextInt((7 - 0) + 1);
+			for(int i = 0; i < numQueens; i++)
+			   {
+						while(initialstate[y][i]==1){//we found a queen there already
+							y=rand.nextInt((7 - 0) + 1);
+							
+						}
+			        	initialstate[y][i]=1;
+			   }
+			initEnv = new Enviroment(initialstate,initialstate);
+		}
+		return initEnv;
+		
+	}
 	public int[][] getEnviromentState() {
 		return enviromentState;
 	}

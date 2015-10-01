@@ -13,7 +13,8 @@ public class Queens8Driver {
 	public static void main(String[] args) {
 		List<Enviroment> gameList = new ArrayList<Enviroment>();
 		readGameFile(gameList);
-		gameList.get(0).printEnviromentState();
+		//gameList.get(0).printEnviromentState();
+		testHillClimbingRandomRestart(gameList);
 		testHillClimbingSteepestAscent(gameList);
 		testHillClimbingFirstChoice(gameList);
 	}
@@ -76,6 +77,19 @@ public class Queens8Driver {
 		}
 		System.out.printf("(hill climbing first choice): solved problems: %.2f\n",(solved/gameList.size())*100);
 	}
+	public static void testHillClimbingRandomRestart(List<Enviroment> gameList){
+		//hillClimbing steepest Ascent
+		int cost = 0;
+		float solved=0;
+		for(int i=0;i<gameList.size();i++){
+			cost = hillClimbingRandomRestart(gameList.get(i));
+			if(cost == 0){
+				
+				solved++;
+			}
+		}
+		System.out.printf("(hill climbing random restart): solved problems: %.2f\n",(solved/gameList.size())*100);
+	}
 	
 	/**
 	 * Non limiting steepest ascent which aborts if it found the perfect solution or a local minimum
@@ -89,6 +103,7 @@ public class Queens8Driver {
 		boolean foundSuccessor = true; //bool on whether the algoirthim can find a successor state with a lower cost
 		//perfect solution minHCost = 0
 		//if we don't find a successor with a lower cost abort
+		//we or it with the bool of whether we have 8 queens on the board because the minHCost will be very low with less than 8 queens on the boards
 		while((minHCost!=0 && foundSuccessor)||successorEnv.getNumQueens()!=8){
 			foundSuccessor = false;
 			
@@ -193,5 +208,52 @@ public class Queens8Driver {
 		}
 		return minHCost;
 	}
-	
+	public static int hillClimbingRandomRestart(Enviroment env){
+		List<Enviroment> successorStates = env.getSuccessorStates();
+		int minHCost = Integer.MAX_VALUE;
+		Enviroment successorEnv = env; //start with current env
+		boolean foundSuccessor; //bool on whether the algorithim can find a successor state with a lower cost
+		//perfect solution minHCost = 0
+		//if we don't find a successor with a lower cost abort
+		while(minHCost!=0){//until complete
+			minHCost = Integer.MAX_VALUE;
+			foundSuccessor =true;
+			//essentially steepest ascent inside a random initial enviroment restarter if we can't find a successor
+			while((minHCost!=0 && foundSuccessor)||successorEnv.getNumQueens()!=8){
+				foundSuccessor = false;
+
+				for(int i=0; i<successorStates.size();i++){
+					int curHCost = hueristicCost(successorStates.get(i));
+					if(curHCost<minHCost){
+						minHCost = curHCost;
+						successorEnv = successorStates.get(i);
+						foundSuccessor = true;
+					}
+				}
+				//reset minHCost if we don't have 8 queens on the board
+				if(successorEnv.getNumQueens()!=8){
+					minHCost = Integer.MAX_VALUE;
+				}
+				successorStates = successorEnv.getSuccessorStates();
+			}
+			//random restarter
+			if(!foundSuccessor){
+				//coudn't find a successor generate a random valid initial state and try again:
+				successorEnv = Enviroment.generateRandomInitialEnv();
+				successorStates = successorEnv.getSuccessorStates();
+			}
+
+		}
+		
+		if(DEBUG&&minHCost==0){
+			System.out.printf("solved:\n");
+			System.out.printf("ENV init state:\n");
+			successorEnv.printInitialState();
+			System.out.println("solution:\n");
+			successorEnv.printEnviromentState();
+		}
+		return minHCost;
+		
+	}
+
 }
