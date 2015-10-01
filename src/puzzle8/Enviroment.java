@@ -313,9 +313,8 @@ public class Enviroment {
 	}
 	
 	public int hammingCost() {
-		int misplaceTiles = -1;
+		int misplaceTiles = 0;
 
-		misplaceTiles = 0;
 		for (int i = 1; i < 9; i++) {
 			for (int j = 0; j < 3; j++) {
 				for (int k = 0; k < 3; k++) {

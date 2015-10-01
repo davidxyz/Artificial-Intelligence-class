@@ -135,10 +135,10 @@ public class Queens8Driver {
 					minHCost = curHCost;
 					successorEnv = successorStates.get(i);
 					foundSuccessor = true;
-					
+					steepestAscentPathCost++;
 				}
 			}
-			steepestAscentPathCost++;
+
 			//reset minHCost if we don't have 8 queens on the board
 			if(successorEnv.getNumQueens()!=8){
 				minHCost = Integer.MAX_VALUE;
@@ -215,8 +215,9 @@ public class Queens8Driver {
 			if(curHCost<minHCost){
 				minHCost = curHCost;
 				successorEnv = successorEnvContender;
+				firstChoicePathCost++;
 			}
-			firstChoicePathCost++;
+
 			//reset minHCost if we don't have 8 queens on the board
 			//because the minHCost doesn't count when less than 8 queens are on board
 			if(successorEnv.getNumQueens()!=8){
@@ -253,10 +254,9 @@ public class Queens8Driver {
 						minHCost = curHCost;
 						successorEnv = successorStates.get(i);
 						foundSuccessor = true;
-						
+						randRestartPathCost++;
 					}
 				}
-				randRestartPathCost++;
 				//reset minHCost if we don't have 8 queens on the board
 				if(successorEnv.getNumQueens()!=8){
 					minHCost = Integer.MAX_VALUE;
@@ -268,6 +268,7 @@ public class Queens8Driver {
 				//coudn't find a successor generate a random valid initial state and try again:
 				successorEnv = Enviroment.generateRandomInitialEnv();
 				successorStates = successorEnv.getSuccessorStates();
+				randRestartPathCost++;
 			}
 
 		}
@@ -298,17 +299,17 @@ public class Queens8Driver {
 			if(curHCost<minHCost){
 				minHCost = curHCost;
 				successorEnv = successorEnvContender;
-	
+				simPathCost++;
 			}else{
 				badnessOfMove = curHCost - minHCost;
 				probabilityOfAcceptingBadMove = probabilityOfAcceptingBadMoveBase+Math.exp(-badnessOfMove);//exponentially decreases
 				
 				if(didTheProbabilityOccur(probabilityOfAcceptingBadMove)){
 					successorEnv = successorEnvContender;
-		
+					simPathCost++;
 				}
 			}
-			simPathCost++;
+
 			probabilityOfAcceptingBadMoveBase-=0.005;//randomly chosen
 			//reset minHCost if we don't have 8 queens on the board
 			if(successorEnv.getNumQueens()!=8){
@@ -327,7 +328,7 @@ public class Queens8Driver {
 
 }
 	public static boolean didTheProbabilityOccur(double chance){
-		Random rand= new Random();
+		/*Random rand= new Random();
 		int randnum = rand.nextInt((100 - 0) + 1);
 		chance = Math.round(chance * 1000.0) / 1000.0;
 		double iterator = 0;
@@ -338,6 +339,14 @@ public class Queens8Driver {
 			}
 			iterator+=0.001;
 		}
+		return false;*/
+		
+		Random rand= new Random();
+		int randnum = rand.nextInt((1000 - 0) + 1);
+		
+			if(randnum>0&&randnum < (int)(chance*1000)){
+				return true;
+			}
 		return false;
 	}
 

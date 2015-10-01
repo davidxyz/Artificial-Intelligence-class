@@ -15,8 +15,8 @@ public class Agent {
 		List<Enviroment> successorStates = env.getSuccessorStates();
 		int minHCost = Integer.MAX_VALUE;
 		int resetCount = 0;
-		Enviroment successorEnv = env; //start with current env
-		boolean foundSuccessor = true; //bool on whether the algoirthim can find a successor state with a lower cost
+		Enviroment successorEnv = env.clone(); //start with current env
+		boolean foundSuccessor = true; //bool on whether the algoirthim can findï¿½a successorï¿½state with a lower cost
 		//perfect solution minHCost = 0
 		//if we don't find a successor with a lower cost abort
 		while((minHCost!=0 && foundSuccessor)||successorEnv.manhattanCost()!=0){
@@ -54,7 +54,7 @@ public class Agent {
 
 	public int SolvePuzzleRR(Enviroment env) {
 		int minHCost = Integer.MAX_VALUE;
-		Enviroment successorEnv = env; //start with current env
+		Enviroment successorEnv = env.clone(); //start with current env
 		Enviroment successorEnvContender= null;
 		
 		
