@@ -14,8 +14,9 @@ public class Agent {
 	public int SolvePuzzleHC(Enviroment env) {
 		List<Enviroment> successorStates = env.getSuccessorStates();
 		int minHCost = Integer.MAX_VALUE;
+		int resetCount = 0;
 		Enviroment successorEnv = env; //start with current env
-		boolean foundSuccessor = true; //bool on whether the algoirthim can findÂ a successorÂ state with a lower cost
+		boolean foundSuccessor = true; //bool on whether the algoirthim can find a successor state with a lower cost
 		//perfect solution minHCost = 0
 		//if we don't find a successor with a lower cost abort
 		while((minHCost!=0 && foundSuccessor)||successorEnv.manhattanCost()!=0){
@@ -29,9 +30,10 @@ public class Agent {
 					foundSuccessor = true;
 				}
 			}
-			//reset minHCost if we don't have 8 queens on the board
-			if(successorEnv.manhattanCost()!=8){
+			if(successorEnv.hammingCost() >= 7){
 				minHCost = Integer.MAX_VALUE;
+			}else if(foundSuccessor == false){
+				return minHCost;
 			}
 			if(DEBUG){
 				System.out.println("========");
@@ -66,8 +68,6 @@ public class Agent {
 				minHCost = curHCost;
 				successorEnv = successorEnvContender;
 			}
-			//reset minHCost if we don't have 8 queens on the board
-			//because the minHCost doesn't count when less than 8 queens are on board
 			if(successorEnv.manhattanCost()!=0){
 				minHCost = Integer.MAX_VALUE;
 			}

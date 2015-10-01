@@ -48,8 +48,6 @@ public class Enviroment {
 		int iIndex = 0;
 
 		if (initialState.matches("[0-9]{9}$") == true) {
-			// System.out.println("The intitial state is eight digits! " +
-			// initialState);
 			for (int i = 0; i < 3; i++) {
 				for (int j = 0; j < 3; j++) {
 					if (Integer.parseInt(initialState.substring(iIndex, iIndex + 1)) == 0) {
@@ -75,8 +73,6 @@ public class Enviroment {
 		int iIndex = 0;
 
 		if (goalState.matches("[0-9]{9}$") == true) {
-			// System.out.println("The goal state is eight digits! " +
-			// goalState);
 			for (int i = 0; i < 3; i++) {
 				for (int j = 0; j < 3; j++) {
 					this.goalState[i][j] = Integer.parseInt(goalState.substring(iIndex, iIndex + 1));
@@ -345,9 +341,6 @@ public class Enviroment {
 			env = successorEnvState.clone().move(j);
 			if (env.blankSpaceLocation.horizontal != successorEnvState.blankSpaceLocation.horizontal || env.blankSpaceLocation.vertical != successorEnvState.blankSpaceLocation.vertical){
 				successorStates.add(env);
-				// DEBUG
-//				System.out.println("===== printing succssor " + successorStates.size());
-//				env.printCurrentEnviromentState();
 			}
 		}
 		return successorStates;

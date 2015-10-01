@@ -37,7 +37,7 @@ public class puzzle8driver {
 	
 	public static void testHillClimbingFirstChoice(List<Enviroment> gameList){
 		Agent hillClimberFirstChoice = new Agent();
-		//hillClimbing steepest Ascent
+		//hillClimbing first choice/Random restart
 		int cost = 0;
 		float solved=0;
 		for(int i=0;i<gameList.size();i++){
