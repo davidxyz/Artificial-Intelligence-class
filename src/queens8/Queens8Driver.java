@@ -11,6 +11,11 @@ import java.util.Random;
 
 public class Queens8Driver {
 	final static boolean DEBUG = false;
+	//measurement variables
+	static int simPathCost=0;
+	static int randRestartPathCost=0;
+	static int steepestAscentPathCost=0;
+	static int firstChoicePathCost=0;
 	public static void main(String[] args) {
 		List<Enviroment> gameList;
 		gameList=readGameFile();
@@ -67,7 +72,7 @@ public class Queens8Driver {
 				solved++;
 			}
 		}
-		System.out.printf("(hill climbing steepest ascent): solved problems: %.2f\n",(solved/gameList.size())*100);
+		System.out.printf("(hill climbing steepest ascent): solved problems: %.2f\tavg search cost: %d\n",(solved/gameList.size())*100,(int)(steepestAscentPathCost/gameList.size()));
 	}
 	public static void testHillClimbingFirstChoice(List<Enviroment> gameList){
 		//hillClimbing steepest Ascent
@@ -80,7 +85,7 @@ public class Queens8Driver {
 				solved++;
 			}
 		}
-		System.out.printf("(hill climbing first choice): solved problems: %.2f\n",(solved/gameList.size())*100);
+		System.out.printf("(hill climbing first choice): solved problems: %.2f\tavg search cost: %d\n",(solved/gameList.size())*100,(int)(firstChoicePathCost/gameList.size()));
 	}
 	public static void testHillClimbingRandomRestart(List<Enviroment> gameList){
 		//hillClimbing steepest Ascent
@@ -93,7 +98,7 @@ public class Queens8Driver {
 				solved++;
 			}
 		}
-		System.out.printf("(hill climbing random restart): solved problems: %.2f\n",(solved/gameList.size())*100);
+		System.out.printf("(hill climbing random restart): solved problems: %.2f\tavg search cost: %d\n",(solved/gameList.size())*100,(int)(randRestartPathCost/gameList.size()));
 	}
 	public static void testSimulatedAnnealing(List<Enviroment> gameList){
 		//hillClimbing steepest Ascent
@@ -106,7 +111,7 @@ public class Queens8Driver {
 				solved++;
 			}
 		}
-		System.out.printf("(simulated annealing): solved problems: %.2f\n",(solved/gameList.size())*100);
+		System.out.printf("(simulated annealing): solved problems: %.2f\tavg search cost: %d\n",(solved/gameList.size())*100,(int)(simPathCost/gameList.size()));
 	}
 	/**
 	 * Non limiting steepest ascent which aborts if it found the perfect solution or a local minimum
@@ -130,8 +135,10 @@ public class Queens8Driver {
 					minHCost = curHCost;
 					successorEnv = successorStates.get(i);
 					foundSuccessor = true;
+					
 				}
 			}
+			steepestAscentPathCost++;
 			//reset minHCost if we don't have 8 queens on the board
 			if(successorEnv.getNumQueens()!=8){
 				minHCost = Integer.MAX_VALUE;
@@ -209,6 +216,7 @@ public class Queens8Driver {
 				minHCost = curHCost;
 				successorEnv = successorEnvContender;
 			}
+			firstChoicePathCost++;
 			//reset minHCost if we don't have 8 queens on the board
 			//because the minHCost doesn't count when less than 8 queens are on board
 			if(successorEnv.getNumQueens()!=8){
@@ -245,8 +253,10 @@ public class Queens8Driver {
 						minHCost = curHCost;
 						successorEnv = successorStates.get(i);
 						foundSuccessor = true;
+						
 					}
 				}
+				randRestartPathCost++;
 				//reset minHCost if we don't have 8 queens on the board
 				if(successorEnv.getNumQueens()!=8){
 					minHCost = Integer.MAX_VALUE;
@@ -288,15 +298,18 @@ public class Queens8Driver {
 			if(curHCost<minHCost){
 				minHCost = curHCost;
 				successorEnv = successorEnvContender;
+	
 			}else{
 				badnessOfMove = curHCost - minHCost;
 				probabilityOfAcceptingBadMove = probabilityOfAcceptingBadMoveBase+Math.exp(-badnessOfMove);//exponentially decreases
 				
 				if(didTheProbabilityOccur(probabilityOfAcceptingBadMove)){
 					successorEnv = successorEnvContender;
+		
 				}
 			}
-			probabilityOfAcceptingBadMoveBase-=0.004;//randomly chosen
+			simPathCost++;
+			probabilityOfAcceptingBadMoveBase-=0.005;//randomly chosen
 			//reset minHCost if we don't have 8 queens on the board
 			if(successorEnv.getNumQueens()!=8){
 				minHCost = Integer.MAX_VALUE;
