@@ -14,8 +14,8 @@ public class puzzle8driver {
 	public static void main(String[] args) {
 		List<Enviroment> gameList = new ArrayList<Enviroment>();
 		readGameFile(gameList);
-		//testHillClimbingSteepestAscent(gameList);
-		testHillClimbingFirstChoice(gameList);
+		testHillClimbingSteepestAscent(gameList);
+		//testHillClimbingFirstChoice(gameList);
 		
 
 	}

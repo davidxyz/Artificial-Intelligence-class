@@ -33,7 +33,10 @@ public class Agent {
 			if(successorEnv.manhattanCost()!=8){
 				minHCost = Integer.MAX_VALUE;
 			}
-			
+			if(DEBUG){
+				System.out.println("========");
+				successorEnv.printCurrentEnviromentState();
+			}
 			successorStates = successorEnv.getSuccessorStates();
 		
 		}

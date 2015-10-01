@@ -361,7 +361,6 @@ public class Enviroment {
 	    return randomNum;
 }
 public Enviroment getSuccessorStateRandomly(){
-	int[][] successorEnvState = enviromentState;
 	if(this.manhattanCost()>0){
 			  return getSuccessorStates().get(randInt(0,getSuccessorStates().size()-1));
 	}else{
