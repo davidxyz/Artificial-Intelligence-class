@@ -307,7 +307,7 @@ public class Queens8Driver {
 				}
 			}
 
-			probabilityOfAcceptingBadMoveBase-=0.005;//randomly chosen
+			probabilityOfAcceptingBadMoveBase-=0.25;//randomly chosen
 			//reset minHCost if we don't have 8 queens on the board
 			if(successorEnv.getNumQueens()!=8){
 				minHCost = Integer.MAX_VALUE;
