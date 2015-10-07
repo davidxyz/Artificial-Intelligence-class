@@ -22,10 +22,10 @@ public class Agent {
 	public static void main(String[] args) {
 		List<Enviroment> gameList = new ArrayList<Enviroment>();
 		readGameFile(gameList);
-		//testHillClimbingSteepestAscent(gameList);
-		testHillClimbingFirstChoice(gameList);
+		testHillClimbingSteepestAscent(gameList);
+		//testHillClimbingFirstChoice(gameList);
 		//testHillClimbingRandomRestart(gameList);
-		testSimulatedAnnealing(gameList);
+		//testSimulatedAnnealing(gameList);
 		
 
 	}
@@ -89,7 +89,6 @@ public class Agent {
 		System.out.printf("(hill climbing first choice): solved problems: %.2f\tavg search cost: %d\n",(solved/gameList.size())*100,(int)(firstChoicePathCost/gameList.size()));
 	}
 	
-	
 	public static boolean readGameFile(List<Enviroment> gameList) {
 		BufferedReader reader = null;
 		String input = null;
@@ -150,12 +149,12 @@ public class Agent {
 						minHCost = curHCost;
 						successorEnv = successorStates.get(i);
 						foundSuccessor = true;
+						randRestartPathCost++;
 					}
 				}
-				if(successorEnv.totalCost()!=0){
-					minHCost = Integer.MAX_VALUE;
+				if(foundSuccessor!=true){
+					break;
 				}
-				successorEnv.printCurrentEnviromentState();
 				successorStates = successorEnv.getSuccessorStates();
 			}
 			//random restarter
@@ -182,6 +181,7 @@ public class Agent {
 	
 	public int solvePuzzleSteepestAscent(Enviroment env) {
 		List<Enviroment> successorStates = env.getSuccessorStates();
+		List<Enviroment> goalPathStates = new ArrayList<Enviroment>();
 		int minHCost = Integer.MAX_VALUE;
 		Enviroment successorEnv = env.clone(); //start with current env
 		boolean foundSuccessor = true; //bool on whether the algoirthim can find a successor state with a lower cost
@@ -237,7 +237,7 @@ public class Agent {
 			if(successorEnv.totalCost()!=0){
 				minHCost++;
 			}
-	}
+		}
 		
 		if(DEBUG&&minHCost==0){
 			System.out.printf("solved:\n");
@@ -275,7 +275,7 @@ public class Agent {
 		
 				}
 			}
-			probabilityOfAcceptingBadMoveBase-=0.25;//randomly chosen
+			probabilityOfAcceptingBadMoveBase-=0.025;//randomly chosen
 			if(successorEnv.totalCost()!=0 && minHCost < minHCost++){
 				minHCost++;
 			}
