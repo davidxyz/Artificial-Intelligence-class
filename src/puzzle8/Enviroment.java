@@ -277,14 +277,16 @@ public class Enviroment {
 			for (int k = 0; k < 3; k++) {
 				if (goalState[j][k] == target) {
 					targetGoalLocation.setCoords(j, k);
+					break;
 				}
 			}
 		}
 
 		for (int j = 0; j < 3; j++) {
 			for (int k = 0; k < 3; k++) {
-				if (enviromentState[j][k] == target) {
+				if (enviromentState[k][j] == target) {
 					targetCurrentLocation.setCoords(j, k);
+					break;
 				}
 			}
 		}
@@ -306,13 +308,14 @@ public class Enviroment {
 
 		cost = 0;
 		for (int i = 1; i < 9; i++) {
-			for (int j = 0; j < 3; j++) {
-				for (int k = 0; k < 3; k++) {
-					if (enviromentState[j][k] == i) {
-						cost += cost(i);
-					}
-				}
-			}
+			cost += cost(i);
+//			for (int j = 0; j < 3; j++) {
+//				for (int k = 0; k < 3; k++) {
+//					if (enviromentState[j][k] == i) {
+//						cost += cost(i);
+//					}
+//				}
+//			}
 		}
 		return cost;
 	}

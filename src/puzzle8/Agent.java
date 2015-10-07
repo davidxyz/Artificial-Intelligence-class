@@ -23,9 +23,9 @@ public class Agent {
 		List<Enviroment> gameList = new ArrayList<Enviroment>();
 		readGameFile(gameList);
 		testHillClimbingSteepestAscent(gameList);
-		//testHillClimbingFirstChoice(gameList);
-		//testHillClimbingRandomRestart(gameList);
-		//testSimulatedAnnealing(gameList);
+//		testHillClimbingFirstChoice(gameList);
+//		testHillClimbingRandomRestart(gameList);
+	//	testSimulatedAnnealing(gameList);
 		
 
 	}
@@ -181,27 +181,36 @@ public class Agent {
 	
 	public int solvePuzzleSteepestAscent(Enviroment env) {
 		List<Enviroment> successorStates = env.getSuccessorStates();
-		List<Enviroment> goalPathStates = new ArrayList<Enviroment>();
 		int minHCost = Integer.MAX_VALUE;
+		int minMCost = Integer.MAX_VALUE;
 		Enviroment successorEnv = env.clone(); //start with current env
 		boolean foundSuccessor = true; //bool on whether the algoirthim can find a successor state with a lower cost
 		//perfect solution minHCost = 0
 		//if we don't find a successor with a lower cost abort
-		while((minHCost!=0 && foundSuccessor)||successorEnv.totalCost()!=0){
+		while((minHCost!=0 && foundSuccessor)||minMCost !=0){
 			foundSuccessor = false;
 			
 			for(int i=0; i<successorStates.size();i++){
-				int curHCost = successorStates.get(i).totalCost();
+				int curHCost = successorStates.get(i).hammingCost();
+				int curMCost = successorStates.get(i).manhattanCost();
 				if(curHCost<minHCost){
+					minMCost = curMCost;
+					minHCost = curHCost;
+					successorEnv = successorStates.get(i);
+					foundSuccessor = true;
+					steepestAscentPathCost++;
+				}
+				if(curMCost<minMCost){
+					minMCost = curMCost;
 					minHCost = curHCost;
 					successorEnv = successorStates.get(i);
 					foundSuccessor = true;
 					steepestAscentPathCost++;
 				}
 			}
-			//reset minHCost
-			if(successorEnv.totalCost()!=0){
-				minHCost = Integer.MAX_VALUE;
+
+			if(!foundSuccessor){
+				break;
 			}
 			
 			successorStates = successorEnv.getSuccessorStates();
