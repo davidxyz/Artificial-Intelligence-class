@@ -385,9 +385,9 @@ public Enviroment generateRandomInitialEnv(){
 			initialstate[j][k] = tileValues.remove(randInt(0, tileValues.size()-1));
 		}
 	}
-	Enviroment initEnv =  new Enviroment(deepCopyIntMatrix(initialstate), this.goalState,initialstate, blankSpaceLocation.clone());
+	Enviroment initEnv =  new Enviroment(deepCopyIntMatrix(initialstate), goalState,initialstate, blankSpaceLocation.clone());
 	//make sure it is a valid initial state! If not try again.
-	while(initEnv.totalCost()!=0){
+	while(initEnv.totalCost()==0){
 		initialstate = new int[3][3];
 		tileValues = new ArrayList<Integer>();
 		
@@ -399,7 +399,7 @@ public Enviroment generateRandomInitialEnv(){
 				initialstate[j][k] = tileValues.remove(randInt(0, tileValues.size()-1));
 			}
 		}
-		initEnv =  new Enviroment(deepCopyIntMatrix(initialstate), this.goalState,initialstate, blankSpaceLocation.clone());
+		initEnv =  new Enviroment(deepCopyIntMatrix(initialstate), goalState,initialstate, blankSpaceLocation.clone());
 		
 	}
 	return initEnv;

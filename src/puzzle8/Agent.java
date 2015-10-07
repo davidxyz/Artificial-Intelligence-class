@@ -22,10 +22,10 @@ public class Agent {
 	public static void main(String[] args) {
 		List<Enviroment> gameList = new ArrayList<Enviroment>();
 		readGameFile(gameList);
-		//testHillClimbingSteepestAscent(gameList);
+		testHillClimbingSteepestAscent(gameList);
 		testHillClimbingFirstChoice(gameList);
-		//testHillClimbingRandomRestart(gameList);
-		//testSimulatedAnnealing(gameList);
+		testHillClimbingRandomRestart(gameList);
+		testSimulatedAnnealing(gameList);
 		
 
 	}
@@ -149,7 +149,6 @@ public class Agent {
 						minHCost = curHCost;
 						successorEnv = successorStates.get(i);
 						foundSuccessor = true;
-						randRestartPathCost++;
 					}
 				}
 				if(foundSuccessor!=true){
