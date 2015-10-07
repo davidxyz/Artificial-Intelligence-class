@@ -12,7 +12,7 @@ import java.util.Random;
 import puzzle8.Enviroment;
 
 public class Agent {
-	final static boolean DEBUG = true;
+	final static boolean DEBUG = false;
 	static int simPathCost=0;
 	static int randRestartPathCost=0;
 	static int steepestAscentPathCost=0;
@@ -22,10 +22,10 @@ public class Agent {
 	public static void main(String[] args) {
 		List<Enviroment> gameList = new ArrayList<Enviroment>();
 		readGameFile(gameList);
-		testHillClimbingSteepestAscent(gameList);
-//		testHillClimbingFirstChoice(gameList);
-//		testHillClimbingRandomRestart(gameList);
-	//	testSimulatedAnnealing(gameList);
+		//testHillClimbingSteepestAscent(gameList);
+		testHillClimbingFirstChoice(gameList);
+		//testHillClimbingRandomRestart(gameList);
+		//testSimulatedAnnealing(gameList);
 		
 
 	}

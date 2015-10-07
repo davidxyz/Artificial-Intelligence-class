@@ -284,7 +284,7 @@ public class Enviroment {
 
 		for (int j = 0; j < 3; j++) {
 			for (int k = 0; k < 3; k++) {
-				if (enviromentState[k][j] == target) {
+				if (enviromentState[j][k] == target) {
 					targetCurrentLocation.setCoords(j, k);
 					break;
 				}
