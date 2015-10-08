@@ -13,12 +13,12 @@ import puzzle8.Enviroment;
 
 public class Agent {
 	final static boolean DEBUG = false;
-	static int simPathCost=0;
-	static int randRestartPathCost=0;
-	static int steepestAscentPathCost=0;
-	static int firstChoicePathCost=0;
-	
-	
+	static int maxIterations = 20000;
+	static int simPathCost = 0;
+	static int randRestartPathCost = 0;
+	static int steepestAscentPathCost = 0;
+	static int firstChoicePathCost = 0;
+
 	public static void main(String[] args) {
 		List<Enviroment> gameList = new ArrayList<Enviroment>();
 		readGameFile(gameList);
@@ -26,69 +26,72 @@ public class Agent {
 		testHillClimbingFirstChoice(gameList);
 		testHillClimbingRandomRestart(gameList);
 		testSimulatedAnnealing(gameList);
-		
 
 	}
-	
-	public static void testSimulatedAnnealing(List<Enviroment> gameList){
+
+	public static void testSimulatedAnnealing(List<Enviroment> gameList) {
 		Agent simulatedAnnealing = new Agent();
-		//simulated annealing
+		// simulated annealing
 		int cost = 0;
-		float solved=0;
-		for(int i=0;i<gameList.size();i++){
+		float solved = 0;
+		for (int i = 0; i < gameList.size(); i++) {
 			cost = simulatedAnnealing.solvePuzzleSimAnnealing(gameList.get(i));
-			if(cost == 0){
-				
+			if (cost == 0) {
+
 				solved++;
 			}
 		}
-		System.out.printf("(simulated annealing): solved problems: %.2f\tavg search cost: %d\n",(solved/gameList.size())*100,(int)(simPathCost/gameList.size()));
+		System.out.printf("(simulated annealing): solved problems: %.2f\tavg search cost: %d\n",
+				(solved / gameList.size()) * 100, (int) (simPathCost / gameList.size()));
 	}
-	
-	public static void testHillClimbingRandomRestart(List<Enviroment> gameList){
-		//hillClimbing random restart
+
+	public static void testHillClimbingRandomRestart(List<Enviroment> gameList) {
+		// hillClimbing random restart
 		int cost = 0;
-		float solved=0;
-		for(int i=0;i<gameList.size();i++){
+		float solved = 0;
+		for (int i = 0; i < gameList.size(); i++) {
 			cost = solvehillClimbingRandomRestart(gameList.get(i));
-			if(cost == 0){
-				
+			if (cost == 0) {
+
 				solved++;
 			}
 		}
-		System.out.printf("(hill climbing random restart): solved problems: %.2f\tavg search cost: %d\n",(solved/gameList.size())*100,(int)(randRestartPathCost/gameList.size()));
+		System.out.printf("(hill climbing random restart): solved problems: %.2f\tavg search cost: %d\n",
+				(solved / gameList.size()) * 100, (int) (randRestartPathCost / gameList.size()));
 	}
-	
-	public static void testHillClimbingSteepestAscent(List<Enviroment> gameList){
+
+	public static void testHillClimbingSteepestAscent(List<Enviroment> gameList) {
 		Agent hillClimber = new Agent();
-		//hillClimbing steepest ascent
-		
+		// hillClimbing steepest ascent
+
 		int cost = 0;
-		float solved=0;
-		for(int i=0;i<gameList.size();i++){
+		float solved = 0;
+		for (int i = 0; i < gameList.size(); i++) {
 			cost = hillClimber.solvePuzzleSteepestAscent(gameList.get(i));
-			if(cost == 0){
+			if (cost == 0) {
 				solved++;
 			}
 		}
-		System.out.printf("(hill climbing steepest ascent): solved problems: %.2f\tavg search cost: %d\n",(solved/gameList.size())*100,(int)(steepestAscentPathCost/gameList.size()));
+		System.out.printf("(hill climbing steepest ascent): solved problems: %.2f\tavg search cost: %d\n",
+				(solved / gameList.size()) * 100, (int) (steepestAscentPathCost / gameList.size()));
 	}
-	
-	public static void testHillClimbingFirstChoice(List<Enviroment> gameList){
+
+	public static void testHillClimbingFirstChoice(List<Enviroment> gameList) {
 		Agent hillClimberFirstChoice = new Agent();
-		//hillClimbing first choice
+		// hillClimbing first choice
 		int cost = 0;
-		float solved=0;
-		for(int i=0;i<gameList.size();i++){
+		float solved = 0;
+		for (int i = 0; i < gameList.size(); i++) {
 			cost = hillClimberFirstChoice.solveHillClimbFirstChoice(gameList.get(i));
-			if(cost == 0){
-				
+			if (cost == 0) {
+
 				solved++;
 			}
 		}
-		System.out.printf("(hill climbing first choice): solved problems: %.2f\tavg search cost: %d\n",(solved/gameList.size())*100,(int)(firstChoicePathCost/gameList.size()));
+		System.out.printf("(hill climbing first choice): solved problems: %.2f\tavg search cost: %d\n",
+				(solved / gameList.size()) * 100, (int) (firstChoicePathCost / gameList.size()));
 	}
-	
+
 	public static boolean readGameFile(List<Enviroment> gameList) {
 		BufferedReader reader = null;
 		String input = null;
@@ -103,17 +106,17 @@ public class Agent {
 		try {
 			while ((input = reader.readLine()) != null) {
 				gameState = new Enviroment();
-				if (gameState.setInitialState(input) == true){
+				if (gameState.setInitialState(input) == true) {
 					input = reader.readLine();
-					if (input.length() == 0){
+					if (input.length() == 0) {
 						input = reader.readLine();
 					}
-					if (gameState.setGoalState(input) == true){
+					if (gameState.setGoalState(input) == true) {
 						gameList.add(gameState);
-					}else{
+					} else {
 						System.out.println("Failed to set goal state");
 					}
-				}else{
+				} else {
 					System.out.println("Failed to set initial state");
 				}
 			}
@@ -128,45 +131,53 @@ public class Agent {
 		}
 		return true;
 	}
-	
-	public static int solvehillClimbingRandomRestart(Enviroment env){
+
+	public static int solvehillClimbingRandomRestart(Enviroment env) {
 		List<Enviroment> successorStates = env.getSuccessorStates();
+		int stuckCounter = 0;
 		int minHCost = Integer.MAX_VALUE;
-		Enviroment successorEnv = env.clone(); //start with current env
-		boolean foundSuccessor; //bool on whether the algorithim can find�a successor�state with a lower cost
-		//perfect solution minHCost = 0
-		//if we don't find a successor with a lower cost abort
-		while(minHCost!=0){//until complete
+		Enviroment successorEnv = env.clone(); // start with current env
+		boolean foundSuccessor; // bool on whether the algorithim can find�a
+								// successor�state with a lower cost
+		// perfect solution minHCost = 0
+		// if we don't find a successor with a lower cost abort
+		while (minHCost != 0) {// until complete
 			minHCost = Integer.MAX_VALUE;
-			foundSuccessor =true;
-			//essentially steepest ascent inside a random initial enviroment restarter if we can't find a successor
-			while(minHCost!=0 && foundSuccessor){
+			foundSuccessor = true;
+			// essentially steepest ascent inside a random initial enviroment
+			// restarter if we can't find a successor
+			while (minHCost != 0 && foundSuccessor) {
 				foundSuccessor = false;
 
-				for(int i=0; i<successorStates.size();i++){
+				for (int i = 0; i < successorStates.size(); i++) {
 					int curHCost = successorStates.get(i).manhattanCost();
-					if(curHCost<minHCost){
+					if (curHCost < minHCost) {
 						minHCost = curHCost;
 						successorEnv = successorStates.get(i);
 						foundSuccessor = true;
 					}
 				}
-				if(foundSuccessor!=true){
+				if (foundSuccessor != true) {
 					break;
 				}
 				successorStates = successorEnv.getSuccessorStates();
 			}
-			//random restarter
-			if(!foundSuccessor){
-				//coudn't find a successor generate a random valid initial state and try again:
+			// random restarter
+			if (!foundSuccessor) {
+				// coudn't find a successor generate a random valid initial
+				// state and try again:
 				successorEnv = successorEnv.generateRandomInitialEnv();
 				successorStates = successorEnv.getSuccessorStates();
 				randRestartPathCost++;
+				stuckCounter++;
+				if (stuckCounter > maxIterations) {
+					return minHCost;
+				}
 			}
 
 		}
-		
-		if(DEBUG&&minHCost==0){
+
+		if (DEBUG && minHCost == 0) {
 			System.out.printf("solved:\n");
 			System.out.printf("ENV init state:\n");
 			successorEnv.printInitialEnviromentState();
@@ -174,23 +185,24 @@ public class Agent {
 			successorEnv.printCurrentEnviromentState();
 		}
 		return minHCost;
-		
+
 	}
-	
-	
+
 	public int solvePuzzleSteepestAscent(Enviroment env) {
 		List<Enviroment> successorStates = env.getSuccessorStates();
 		int minHCost = Integer.MAX_VALUE;
-		Enviroment successorEnv = env.clone(); //start with current env
-		boolean foundSuccessor = true; //bool on whether the algoirthim can find�a successor�state with a lower cost
-		//perfect solution minHCost = 0
-		//if we don't find a successor with a lower cost abort
-		while(minHCost!=0 && foundSuccessor){
+		Enviroment successorEnv = env.clone(); // start with current env
+		boolean foundSuccessor = true; // bool on whether the algoirthim can
+										// find�a successor�state with a
+										// lower cost
+		// perfect solution minHCost = 0
+		// if we don't find a successor with a lower cost abort
+		while (minHCost != 0 && foundSuccessor) {
 			foundSuccessor = false;
-			
-			for(int i=0; i<successorStates.size();i++){
+
+			for (int i = 0; i < successorStates.size(); i++) {
 				int curHCost = successorStates.get(i).manhattanCost();
-				if(curHCost<minHCost){
+				if (curHCost < minHCost) {
 					minHCost = curHCost;
 					successorEnv = successorStates.get(i);
 					foundSuccessor = true;
@@ -199,9 +211,9 @@ public class Agent {
 			}
 
 			successorStates = successorEnv.getSuccessorStates();
-		
+
 		}
-		if(DEBUG&&minHCost==0){
+		if (DEBUG && minHCost == 0) {
 			System.out.printf("solved:\n");
 			System.out.printf("ENV init state:\n");
 			successorEnv.printInitialEnviromentState();
@@ -213,27 +225,31 @@ public class Agent {
 
 	public int solveHillClimbFirstChoice(Enviroment env) {
 		int minHCost = 26;
-		Enviroment successorEnv = env.clone(); //start with current env
-		Enviroment successorEnvContender= null;
-		
-		
-		//perfect solution minHCost = 0
-		//if we don't find a successor with a lower cost abort
-		while(minHCost!=0){
+		int stuckCounter = 0;
+		Enviroment successorEnv = env.clone(); // start with current env
+		Enviroment successorEnvContender = null;
+
+		// perfect solution minHCost = 0
+		// if we don't find a successor with a lower cost abort
+		while (minHCost != 0) {
 
 			successorEnvContender = successorEnv.getSuccessorStateRandomly();
 			int curHCost = successorEnvContender.manhattanCost();
-			if(curHCost<minHCost){
+			if (curHCost < minHCost) {
 				minHCost = curHCost;
 				successorEnv = successorEnvContender;
 				firstChoicePathCost++;
+				stuckCounter++;
+				if (stuckCounter > maxIterations) {
+					return minHCost;
+				}
 			}
-			if(successorEnv.totalCost()!=0){
+			if (successorEnv.totalCost() != 0) {
 				minHCost++;
 			}
 		}
-		
-		if(DEBUG&&minHCost==0){
+
+		if (DEBUG && minHCost == 0) {
 			System.out.printf("solved:\n");
 			System.out.printf("ENV init state:\n");
 			successorEnv.printInitialEnviromentState();
@@ -245,53 +261,59 @@ public class Agent {
 
 	public int solvePuzzleSimAnnealing(Enviroment env) {
 		int minHCost = Integer.MAX_VALUE;
-		Enviroment successorEnv = env.clone(); //start with current env
-		Enviroment successorEnvContender= null;
-		//perfect solution minHCost = 0
+		int stuckCounter = 0;
+		Enviroment successorEnv = env.clone(); // start with current env
+		Enviroment successorEnvContender = null;
+		// perfect solution minHCost = 0
 		int badnessOfMove;
-		double probabilityOfAcceptingBadMoveBase=0.999;//less than 1
+		double probabilityOfAcceptingBadMoveBase = 0.999;// less than 1
 		double probabilityOfAcceptingBadMove;
-		while(minHCost!=0){
+		while (minHCost != 0) {
 
 			successorEnvContender = successorEnv.getSuccessorStateRandomly();
 			int curHCost = successorEnvContender.manhattanCost();
-			
-			if(curHCost<minHCost){
+
+			if (curHCost < minHCost) {
 				minHCost = curHCost;
 				successorEnv = successorEnvContender;
 				simPathCost++;
-			}else{
+				stuckCounter++;
+				if (stuckCounter > maxIterations) {
+					return minHCost;
+				}
+			} else {
 				badnessOfMove = curHCost - minHCost;
-				probabilityOfAcceptingBadMove = probabilityOfAcceptingBadMoveBase+Math.exp(-badnessOfMove);//exponentially decreases
-				
-				if(didTheProbabilityOccur(probabilityOfAcceptingBadMove)){
+				probabilityOfAcceptingBadMove = probabilityOfAcceptingBadMoveBase + Math.exp(-badnessOfMove);// exponentially
+																												// decreases
+
+				if (didTheProbabilityOccur(probabilityOfAcceptingBadMove)) {
 					successorEnv = successorEnvContender;
-		
+
 				}
 			}
-			probabilityOfAcceptingBadMoveBase-=0.025;//randomly chosen
-			if(successorEnv.totalCost()!=0 && minHCost < minHCost++){
+			probabilityOfAcceptingBadMoveBase -= 0.005;// randomly chosen
+			if (successorEnv.totalCost() != 0 && minHCost < minHCost++) {
 				minHCost++;
 			}
+		}
+
+		if (DEBUG && minHCost == 0) {
+			System.out.printf("solved:\n");
+			System.out.printf("ENV init state:\n");
+			successorEnv.printInitialEnviromentState();
+			System.out.println("solution:\n");
+			successorEnv.printCurrentEnviromentState();
+		}
+		return minHCost;
 	}
 
-	if(DEBUG&&minHCost==0){
-		System.out.printf("solved:\n");
-		System.out.printf("ENV init state:\n");
-		successorEnv.printInitialEnviromentState();
-		System.out.println("solution:\n");
-		successorEnv.printCurrentEnviromentState();
-	}
-	return minHCost;
-}
-	
-	public static boolean didTheProbabilityOccur(double chance){
-		Random rand= new Random();
+	public static boolean didTheProbabilityOccur(double chance) {
+		Random rand = new Random();
 		int randnum = rand.nextInt((1000 - 0) + 1);
-		
-			if(randnum>0&&randnum < (int)(chance*1000)){
-				return true;
-			}
+
+		if (randnum > 0 && randnum < (int) (chance * 1000)) {
+			return true;
+		}
 		return false;
 	}
 }
