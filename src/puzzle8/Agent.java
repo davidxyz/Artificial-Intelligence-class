@@ -12,7 +12,7 @@ import java.util.Random;
 import puzzle8.Enviroment;
 
 public class Agent {
-	final static boolean DEBUG = false;
+	final static boolean DEBUG = true;
 	static int maxIterations = 15000;
 	static int simPathCost = 0;
 	static int randRestartPathCost = 0;
@@ -134,7 +134,7 @@ public class Agent {
 
 	public static int solvehillClimbingRandomRestart(Enviroment env) {
 		List<Enviroment> successorStates = env.getSuccessorStates();
-		int stuckCounter = 0;
+		int currentCost = 0;
 		int minHCost = Integer.MAX_VALUE;
 		Enviroment successorEnv = env.clone(); // start with current env
 		boolean foundSuccessor; // bool on whether the algorithim can find�a
@@ -169,8 +169,8 @@ public class Agent {
 				successorEnv = successorEnv.generateRandomInitialEnv();
 				successorStates = successorEnv.getSuccessorStates();
 				randRestartPathCost++;
-				stuckCounter++;
-				if (stuckCounter > maxIterations) {
+				currentCost++;
+				if (currentCost > maxIterations) {
 					return minHCost;
 				}
 			}
@@ -183,6 +183,7 @@ public class Agent {
 			successorEnv.printInitialEnviromentState();
 			System.out.println("solution:\n");
 			successorEnv.printCurrentEnviromentState();
+			System.out.println("This solutions cost: " + currentCost + "\n");
 		}
 		return minHCost;
 
@@ -191,6 +192,7 @@ public class Agent {
 	public int solvePuzzleSteepestAscent(Enviroment env) {
 		List<Enviroment> successorStates = env.getSuccessorStates();
 		int minHCost = Integer.MAX_VALUE;
+		int currentCost = 0;
 		Enviroment successorEnv = env.clone(); // start with current env
 		boolean foundSuccessor = true; // bool on whether the algoirthim can
 										// find�a successor�state with a
@@ -207,6 +209,7 @@ public class Agent {
 					successorEnv = successorStates.get(i);
 					foundSuccessor = true;
 					steepestAscentPathCost++;
+					currentCost++;
 				}
 			}
 
@@ -219,13 +222,14 @@ public class Agent {
 			successorEnv.printInitialEnviromentState();
 			System.out.println("solution:\n");
 			successorEnv.printGoalEnviromentState();
+			System.out.println("This solutions cost: " + currentCost + "\n");
 		}
 		return minHCost;
 	}
 
 	public int solveHillClimbFirstChoice(Enviroment env) {
 		int minHCost = 26;
-		int stuckCounter = 0;
+		int currentCost = 0;
 		Enviroment successorEnv = env.clone(); // start with current env
 		Enviroment successorEnvContender = null;
 
@@ -239,8 +243,8 @@ public class Agent {
 				minHCost = curHCost;
 				successorEnv = successorEnvContender;
 				firstChoicePathCost++;
-				stuckCounter++;
-				if (stuckCounter > maxIterations) {
+				currentCost++;
+				if (currentCost > maxIterations) {
 					return minHCost;
 				}
 			}
@@ -255,13 +259,14 @@ public class Agent {
 			successorEnv.printInitialEnviromentState();
 			System.out.println("solution:\n");
 			successorEnv.printCurrentEnviromentState();
+			System.out.println("This solutions cost: " + currentCost + "\n");
 		}
 		return minHCost;
 	}
 
 	public int solvePuzzleSimAnnealing(Enviroment env) {
 		int minHCost = Integer.MAX_VALUE;
-		int stuckCounter = 0;
+		int currentCost = 0;
 		Enviroment successorEnv = env.clone(); // start with current env
 		Enviroment successorEnvContender = null;
 		// perfect solution minHCost = 0
@@ -277,8 +282,8 @@ public class Agent {
 				minHCost = curHCost;
 				successorEnv = successorEnvContender;
 				simPathCost++;
-				stuckCounter++;
-				if (stuckCounter > maxIterations) {
+				currentCost++;
+				if (currentCost > maxIterations) {
 					return minHCost;
 				}
 			} else {
@@ -291,7 +296,7 @@ public class Agent {
 
 				}
 			}
-			probabilityOfAcceptingBadMoveBase -= 0.25;// randomly chosen
+			probabilityOfAcceptingBadMoveBase -= .025;// randomly chosen
 			if (successorEnv.totalCost() != 0 && minHCost < minHCost++) {
 				minHCost++;
 			}
@@ -303,6 +308,7 @@ public class Agent {
 			successorEnv.printInitialEnviromentState();
 			System.out.println("solution:\n");
 			successorEnv.printCurrentEnviromentState();
+			System.out.println("This solutions cost: " + currentCost + "\n");
 		}
 		return minHCost;
 	}

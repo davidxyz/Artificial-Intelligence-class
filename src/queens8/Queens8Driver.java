@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Random;
 
 public class Queens8Driver {
-	final static boolean DEBUG = false;
+	final static boolean DEBUG = true;
 	// measurement variables
 	static int simPathCost = 0;
 	static int randRestartPathCost = 0;
@@ -130,6 +130,7 @@ public class Queens8Driver {
 	public static int hillClimbingSteepestAscent(Enviroment env) {
 		List<Enviroment> successorStates = env.getSuccessorStates();
 		int minHCost = Integer.MAX_VALUE;
+		int currentCost = 0;
 		Enviroment successorEnv = env.clone(); // start with current env
 		boolean foundSuccessor = true; // bool on whether the algoirthim can
 										// find a successor state with a lower
@@ -149,6 +150,7 @@ public class Queens8Driver {
 					successorEnv = successorStates.get(i);
 					foundSuccessor = true;
 					steepestAscentPathCost++;
+					currentCost++;
 				}
 			}
 
@@ -167,6 +169,7 @@ public class Queens8Driver {
 			System.out.println("solution:\n");
 			successorEnv.printEnviromentState();
 		}
+		System.out.println("This solutions cost: " + currentCost + "\n");
 		return minHCost;
 	}
 
@@ -217,6 +220,7 @@ public class Queens8Driver {
 	// complete but inefficient
 	public static int hillClimbingFirstChoice(Enviroment env) {
 		int minHCost = Integer.MAX_VALUE;
+		int currentCost = 0;
 		Enviroment successorEnv = env.clone(); // start with current env
 		Enviroment successorEnvContender = null;
 
@@ -230,6 +234,7 @@ public class Queens8Driver {
 				minHCost = curHCost;
 				successorEnv = successorEnvContender;
 				firstChoicePathCost++;
+				currentCost++;
 			}
 
 			// reset minHCost if we don't have 8 queens on the board
@@ -247,12 +252,14 @@ public class Queens8Driver {
 			System.out.println("solution:\n");
 			successorEnv.printEnviromentState();
 		}
+		System.out.println("This solutions cost: " + currentCost + "\n");
 		return minHCost;
 	}
 
 	public static int hillClimbingRandomRestart(Enviroment env) {
 		List<Enviroment> successorStates = env.getSuccessorStates();
 		int minHCost = Integer.MAX_VALUE;
+		int currentCost = 0;
 		Enviroment successorEnv = env.clone(); // start with current env
 		boolean foundSuccessor; // bool on whether the algorithim can find a
 								// successor state with a lower cost
@@ -273,6 +280,7 @@ public class Queens8Driver {
 						successorEnv = successorStates.get(i);
 						foundSuccessor = true;
 						randRestartPathCost++;
+						currentCost++;
 					}
 				}
 				// reset minHCost if we don't have 8 queens on the board
@@ -288,6 +296,7 @@ public class Queens8Driver {
 				successorEnv = Enviroment.generateRandomInitialEnv();
 				successorStates = successorEnv.getSuccessorStates();
 				randRestartPathCost++;
+				currentCost++;
 			}
 
 		}
@@ -299,12 +308,14 @@ public class Queens8Driver {
 			System.out.println("solution:\n");
 			successorEnv.printEnviromentState();
 		}
+		System.out.println("This solutions cost: " + currentCost + "\n");
 		return minHCost;
 
 	}
 
 	public static int simulatedAnnealing(Enviroment env) {
 		int minHCost = Integer.MAX_VALUE;
+		int currentCost = 0;
 		Enviroment successorEnv = env.clone(); // start with current env
 		Enviroment successorEnvContender = null;
 		// perfect solution minHCost = 0
@@ -320,6 +331,7 @@ public class Queens8Driver {
 				minHCost = curHCost;
 				successorEnv = successorEnvContender;
 				simPathCost++;
+				currentCost++;
 			} else {
 				badnessOfMove = curHCost - minHCost;
 				probabilityOfAcceptingBadMove = probabilityOfAcceptingBadMoveBase + Math.exp(-badnessOfMove);// exponentially
@@ -328,6 +340,7 @@ public class Queens8Driver {
 				if (didTheProbabilityOccur(probabilityOfAcceptingBadMove)) {
 					successorEnv = successorEnvContender;
 					simPathCost++;
+					currentCost++;
 				}
 			}
 
@@ -345,6 +358,7 @@ public class Queens8Driver {
 			System.out.println("solution:\n");
 			successorEnv.printEnviromentState();
 		}
+		System.out.println("This solutions cost: " + currentCost + "\n");
 		return minHCost;
 
 	}
