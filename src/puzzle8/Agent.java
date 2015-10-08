@@ -13,7 +13,7 @@ import puzzle8.Enviroment;
 
 public class Agent {
 	final static boolean DEBUG = false;
-	static int maxIterations = 20000;
+	static int maxIterations = 15000;
 	static int simPathCost = 0;
 	static int randRestartPathCost = 0;
 	static int steepestAscentPathCost = 0;
@@ -291,7 +291,7 @@ public class Agent {
 
 				}
 			}
-			probabilityOfAcceptingBadMoveBase -= 0.005;// randomly chosen
+			probabilityOfAcceptingBadMoveBase -= 0.25;// randomly chosen
 			if (successorEnv.totalCost() != 0 && minHCost < minHCost++) {
 				minHCost++;
 			}
