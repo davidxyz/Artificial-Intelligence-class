@@ -133,18 +133,18 @@ public class Agent {
 		List<Enviroment> successorStates = env.getSuccessorStates();
 		int minHCost = Integer.MAX_VALUE;
 		Enviroment successorEnv = env.clone(); //start with current env
-		boolean foundSuccessor; //bool on whether the algorithim can find a successor state with a lower cost
+		boolean foundSuccessor; //bool on whether the algorithim can findï¿½a successorï¿½state with a lower cost
 		//perfect solution minHCost = 0
 		//if we don't find a successor with a lower cost abort
 		while(minHCost!=0){//until complete
 			minHCost = Integer.MAX_VALUE;
 			foundSuccessor =true;
 			//essentially steepest ascent inside a random initial enviroment restarter if we can't find a successor
-			while((minHCost!=0 && foundSuccessor)||successorEnv.totalCost()!=0){
+			while(minHCost!=0 && foundSuccessor){
 				foundSuccessor = false;
 
 				for(int i=0; i<successorStates.size();i++){
-					int curHCost = successorStates.get(i).totalCost();
+					int curHCost = successorStates.get(i).manhattanCost();
 					if(curHCost<minHCost){
 						minHCost = curHCost;
 						successorEnv = successorStates.get(i);
@@ -181,26 +181,16 @@ public class Agent {
 	public int solvePuzzleSteepestAscent(Enviroment env) {
 		List<Enviroment> successorStates = env.getSuccessorStates();
 		int minHCost = Integer.MAX_VALUE;
-		int minMCost = Integer.MAX_VALUE;
 		Enviroment successorEnv = env.clone(); //start with current env
-		boolean foundSuccessor = true; //bool on whether the algoirthim can find a successor state with a lower cost
+		boolean foundSuccessor = true; //bool on whether the algoirthim can findï¿½a successorï¿½state with a lower cost
 		//perfect solution minHCost = 0
 		//if we don't find a successor with a lower cost abort
-		while((minHCost!=0 && foundSuccessor)||minMCost !=0){
+		while(minHCost!=0 && foundSuccessor){
 			foundSuccessor = false;
 			
 			for(int i=0; i<successorStates.size();i++){
-				int curHCost = successorStates.get(i).hammingCost();
-				int curMCost = successorStates.get(i).manhattanCost();
+				int curHCost = successorStates.get(i).manhattanCost();
 				if(curHCost<minHCost){
-					minMCost = curMCost;
-					minHCost = curHCost;
-					successorEnv = successorStates.get(i);
-					foundSuccessor = true;
-					steepestAscentPathCost++;
-				}
-				if(curMCost<minMCost){
-					minMCost = curMCost;
 					minHCost = curHCost;
 					successorEnv = successorStates.get(i);
 					foundSuccessor = true;
@@ -208,10 +198,6 @@ public class Agent {
 				}
 			}
 
-			if(!foundSuccessor){
-				break;
-			}
-			
 			successorStates = successorEnv.getSuccessorStates();
 		
 		}
@@ -233,10 +219,10 @@ public class Agent {
 		
 		//perfect solution minHCost = 0
 		//if we don't find a successor with a lower cost abort
-		while(minHCost!=0 || successorEnv.totalCost()!=0){
+		while(minHCost!=0){
 
 			successorEnvContender = successorEnv.getSuccessorStateRandomly();
-			int curHCost = successorEnvContender.totalCost();
+			int curHCost = successorEnvContender.manhattanCost();
 			if(curHCost<minHCost){
 				minHCost = curHCost;
 				successorEnv = successorEnvContender;
@@ -265,7 +251,7 @@ public class Agent {
 		int badnessOfMove;
 		double probabilityOfAcceptingBadMoveBase=0.999;//less than 1
 		double probabilityOfAcceptingBadMove;
-		while(minHCost!=0 || successorEnv.manhattanCost()!=0){
+		while(minHCost!=0){
 
 			successorEnvContender = successorEnv.getSuccessorStateRandomly();
 			int curHCost = successorEnvContender.manhattanCost();
